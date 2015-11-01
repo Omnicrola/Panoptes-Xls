@@ -12,99 +12,88 @@ import com.omnicrola.panoptes.data.WorkStatement;
 
 public class ExportModelBuilder {
 
-    public ExportModelBuilder( ) {
+    private ExportDataRowSorter exportDataRowSorter;
 
+    public ExportModelBuilder() {
+        this.exportDataRowSorter = new ExportDataRowSorter();
     }
 
-    public List<ExportDataRow> buildDataRows( List<TimeData> timeblocks) {
-//        HashMap<String, WorkStatement> projectNameMap = buildWorkstatementHashMap(this.controller
-//                .getWorkStatements());
-//        HashMap<String, ExportDataRow> rowMap = new HashMap<String, ExportDataRow>();
+    public List<ExportDataRow> buildDataRows(List<TimeData> timeblocks) {
+        HashMap<String, WorkStatement> projectNameMap = new HashMap<>();
+        HashMap<String, ExportDataRow> rowMap = new HashMap<>();
+
+        for (TimeData timeData : timeblocks) {
+            ExportDataRow exportDataRow = getRowForTimeBlock(rowMap, timeData, projectNameMap);
+            exportDataRow.addTime(timeData.getDayOfWeek(), timeData.getElapsedTimeInHours());
+        }
+
+        return this.exportDataRowSorter.sort(new ArrayList<>(rowMap.values()));
+    }
+
+//    public HashMap<String, InvoiceRow> buildInvoiceRows(XSSFWorkbook workbook,
+//                                                        List<ExportDataRow> exportList) {
+//        HashMap<String, InvoiceRow> sowToRowMap = new HashMap<>();
 //
-//        for (IReadTimeblock timeBlock : blockSet) {
-//            if (timeBlock.getTimeData() != TimeData.NULL) {
-//                ExportDataRow dataRow = getRow(rowMap, timeBlock, projectNameMap);
-//                int dayIndex = timeBlock.getDayIndex();
-//                dataRow.addTime(dayIndex, 0.25f);
+//        for (ExportDataRow exportDataRow : exportList) {
+//            if (exportDataRow != ExportDataRow.EMPTY) {
+//                String projectCode = exportDataRow.getWorkStatement().getProjectCode();
+//                String projectName = exportDataRow.getWorkStatement().getProjectName();
+//
+//                if (sowToRowMap.containsKey(projectCode)) {
+//                    InvoiceRow invoiceRow = sowToRowMap.get(projectCode);
+//                    invoiceRow.addTime(projectName, exportDataRow.getTotalTime());
+//                } else {
+//                    WorkStatement workStatement = exportDataRow.getWorkStatement();
+//                    InvoiceRow invoiceRow = new InvoiceRow(workStatement);
+//                    invoiceRow.addTime(projectName, exportDataRow.getTotalTime());
+//                    sowToRowMap.put(projectCode, invoiceRow);
+//                }
 //            }
 //        }
-//
-//        List<ExportDataRow> dataList = new ArrayList<ExportDataRow>(rowMap.values());
-//        Collections.sort(dataList, new ExportRowComparator());
-//        insertBlankRows(dataList);
-//        return dataList;
-        return null;
+//        return sowToRowMap;
+//    }
+
+
+    private String getHashKey(TimeData timeblock) {
+        String project = timeblock.getProject();
+        String card = timeblock.getCard();
+        String hashKey = project + card;
+        return hashKey;
+
     }
 
-    public HashMap<String, InvoiceRow> buildInvoiceRows(XSSFWorkbook workbook,
-            List<ExportDataRow> exportList) {
-        HashMap<String, InvoiceRow> sowToRowMap = new HashMap<>();
-
-        for (ExportDataRow exportDataRow : exportList) {
-            if (exportDataRow != ExportDataRow.EMPTY) {
-                String projectCode = exportDataRow.getWorkStatement().getProjectCode();
-                String projectName = exportDataRow.getWorkStatement().getProjectName();
-
-                if (sowToRowMap.containsKey(projectCode)) {
-                    InvoiceRow invoiceRow = sowToRowMap.get(projectCode);
-                    invoiceRow.addTime(projectName, exportDataRow.getTotalTime());
-                } else {
-                    WorkStatement workStatement = exportDataRow.getWorkStatement();
-                    InvoiceRow invoiceRow = new InvoiceRow(workStatement);
-                    invoiceRow.addTime(projectName, exportDataRow.getTotalTime());
-                    sowToRowMap.put(projectCode, invoiceRow);
-                }
-            }
+    private ExportDataRow getRowForTimeBlock(HashMap<String, ExportDataRow> rowMap, TimeData timeBlock,
+                                             HashMap<String, WorkStatement> projectNameMap) {
+        String hashKey = getHashKey(timeBlock);
+        if (rowMap.containsKey(hashKey)) {
+            return rowMap.get(hashKey);
         }
-        return sowToRowMap;
+        ExportDataRow exportDataRow = createNewRow(rowMap, timeBlock, projectNameMap);
+
+        return exportDataRow;
     }
 
-    private HashMap<String, WorkStatement> buildWorkstatementHashMap(
-            List<WorkStatement> workStatements) {
-        HashMap<String, WorkStatement> clientToSowMap = new HashMap<String, WorkStatement>();
-        for (WorkStatement workStatement : workStatements) {
-            String projectName = workStatement.getProjectName();
-            clientToSowMap.put(projectName, workStatement);
+    private ExportDataRow createNewRow(HashMap<String, ExportDataRow> rowMap,
+                                       TimeData timeBlock,
+                                       HashMap<String, WorkStatement> projectNameMap) {
+        String project = timeBlock.getProject();
+        String card = timeBlock.getCard();
+        String role = timeBlock.getRole();
+
+        WorkStatement workStatement = WorkStatement.EMPTY;
+        if (projectNameMap.containsKey(project)) {
+            workStatement = projectNameMap.get(project);
         }
-        return clientToSowMap;
+        ExportDataRow exportDataRow = new ExportDataRow(
+                workStatement,
+                project,
+                role,
+                card,
+                true,
+                true);
+        rowMap.put(getHashKey(timeBlock), exportDataRow);
+        return exportDataRow;
     }
-
-//    private ExportDataRow createNewRow(HashMap<String, ExportDataRow> rowMap,
-//            TimeData timeBlock, HashMap<String, WorkStatement> projectNameMap) {
-//        String project = timeBlock.getTimeData().getProject();
-//
-//        WorkStatement workStatement = WorkStatement.EMPTY;
-//        if (projectNameMap.containsKey(project)) {
-//            workStatement = projectNameMap.get(project);
-//        }
-//
-//        String card = timeBlock.getTimeData().getCard();
-//        String role = timeBlock.getTimeData().getRole();
-//
-//        ExportDataRow exportDataRow = new ExportDataRow(workStatement, project, role, card, true,
-//                true);
-//        rowMap.put(getHashKey(timeBlock), exportDataRow);
-//        return exportDataRow;
-//    }
-//
-//    private String getHashKey(IReadTimeblock timeblock) {
-//        String project = timeblock.getTimeData().getProject();
-//        String card = timeblock.getTimeData().getCard();
-//        String hashKey = project + card;
-//        return hashKey;
-//
-//    }
-//
-//    private ExportDataRow getRow(HashMap<String, ExportDataRow> rowMap, IReadTimeblock timeBlock,
-//            HashMap<String, WorkStatement> projectNameMap) {
-//        String hashKey = getHashKey(timeBlock);
-//        if (rowMap.containsKey(hashKey)) {
-//            return rowMap.get(hashKey);
-//        }
-//        ExportDataRow exportDataRow = createNewRow(rowMap, timeBlock, projectNameMap);
-//
-//        return exportDataRow;
-//    }
 
     private void insertBlankRows(List<ExportDataRow> dataList) {
         List<Integer> list = new ArrayList<>();
