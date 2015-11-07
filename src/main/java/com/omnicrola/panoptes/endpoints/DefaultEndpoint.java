@@ -2,7 +2,7 @@ package com.omnicrola.panoptes.endpoints;
 
 import com.omnicrola.panoptes.data.ExportDataContainer;
 import com.omnicrola.panoptes.export.XlsBuilderFactory;
-import com.omnicrola.panoptes.export.xls.ExcelExporter;
+import com.omnicrola.panoptes.export.xls.XlsExporter;
 import com.omnicrola.panoptes.export.xls.StreamingXlsOutput;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -28,7 +28,7 @@ public class DefaultEndpoint {
     @POST
     @Produces({"application/xls"})
     public StreamingOutput createXls(ExportDataContainer exportDataContainer) {
-        ExcelExporter excelExporter = XlsBuilderFactory.build();
+        XlsExporter excelExporter = XlsBuilderFactory.build();
         XSSFWorkbook workbook = excelExporter.build(exportDataContainer);
         return new StreamingXlsOutput(workbook);
     }

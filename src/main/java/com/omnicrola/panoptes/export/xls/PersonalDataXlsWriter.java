@@ -3,25 +3,25 @@ package com.omnicrola.panoptes.export.xls;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class PersonalDataExporter {
+public class PersonalDataXlsWriter {
 
     private final XlsUtilityToolbox toolbox;
 
-    public PersonalDataExporter(XlsUtilityToolbox toolbox) {
+    public PersonalDataXlsWriter(XlsUtilityToolbox toolbox) {
         this.toolbox = toolbox;
     }
 
 
     private XSSFCell getCompanyCell(XSSFWorkbook workbook) {
-        return this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_TIMESHEET, 2, 2);
+        return this.toolbox.getCellAt(workbook, XlsExporter.SHEET_TIMESHEET, 2, 2);
     }
 
     private XSSFCell getNameCell(XSSFWorkbook workbook) {
-        return this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_TIMESHEET, 1, 2);
+        return this.toolbox.getCellAt(workbook, XlsExporter.SHEET_TIMESHEET, 1, 2);
     }
 
     private XSSFCell getWeekEndingCell(XSSFWorkbook workbook) {
-        return this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_TIMESHEET, 3, 2);
+        return this.toolbox.getCellAt(workbook, XlsExporter.SHEET_TIMESHEET, 3, 2);
     }
 
 //    private void writeInvoicePersonalInfo(XSSFWorkbook workbook, IReadPersonalData personalData,

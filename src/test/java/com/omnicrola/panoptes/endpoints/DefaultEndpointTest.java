@@ -2,7 +2,7 @@ package com.omnicrola.panoptes.endpoints;
 
 import com.omnicrola.panoptes.data.ExportDataContainer;
 import com.omnicrola.panoptes.export.XlsBuilderFactory;
-import com.omnicrola.panoptes.export.xls.ExcelExporter;
+import com.omnicrola.panoptes.export.xls.XlsExporter;
 import com.omnicrola.panoptes.export.xls.StreamingXlsOutput;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
@@ -34,7 +34,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 public class DefaultEndpointTest extends EndpointTest {
 
     @Mock
-    ExcelExporter mockXlsBuilder;
+    XlsExporter mockXlsBuilder;
     @Mock
     XSSFWorkbook mockWorkbook;
 
@@ -46,7 +46,7 @@ public class DefaultEndpointTest extends EndpointTest {
         Method defaultAction = defaultEndpointClass.getDeclaredMethod("defaultAction");
         assertAnnotationPresent(defaultAction, GET.class);
 
-        Method postAction = defaultEndpointClass.getDeclaredMethod("createXls");
+        Method postAction = defaultEndpointClass.getDeclaredMethod("createXls", ExportDataContainer.class);
         assertAnnotationPresent(postAction, POST.class);
     }
 

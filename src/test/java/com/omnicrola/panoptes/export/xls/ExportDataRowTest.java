@@ -21,7 +21,7 @@ public class ExportDataRowTest {
         boolean billToMenlo = true;
         boolean billToClient = true;
 
-        ExportDataRow exportDataRow = new ExportDataRow(mockWorkStatement, project, role, card, billToMenlo, billToClient);
+        TimesheetLineItem exportDataRow = new TimesheetLineItem(mockWorkStatement, project, role, card, billToMenlo, billToClient);
 
         assertEquals(exportDataRow.getCard(), card);
         assertEquals(role, exportDataRow.getRole());
@@ -36,7 +36,7 @@ public class ExportDataRowTest {
     @Test
     public void testAddsTimeToCorrectDays() throws Exception {
 
-        ExportDataRow exportDataRow = createExportDataRow();
+        TimesheetLineItem exportDataRow = createExportDataRow();
 
         float day0 = randomFloat();
         float day1 = randomFloat();
@@ -90,7 +90,7 @@ public class ExportDataRowTest {
     @Test
     public void testCalculatesTotalTime() throws Exception {
 
-        ExportDataRow exportDataRow = createExportDataRow();
+        TimesheetLineItem exportDataRow = createExportDataRow();
 
         float day0 = randomFloat();
         float day1 = randomFloat();
@@ -116,8 +116,8 @@ public class ExportDataRowTest {
         return (float) (Math.random() * 100);
     }
 
-    private ExportDataRow createExportDataRow() {
+    private TimesheetLineItem createExportDataRow() {
         WorkStatement mockWorkStatement = mock(WorkStatement.class);
-        return new ExportDataRow(mockWorkStatement, "project", "role", "card", true, true);
+        return new TimesheetLineItem(mockWorkStatement, "project", "role", "card", true, true);
     }
 }

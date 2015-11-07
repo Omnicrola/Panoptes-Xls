@@ -8,10 +8,10 @@ import java.util.List;
  */
 public class ExportDataRowSorter {
 
-    private static class ExportRowComparator implements Comparator<ExportDataRow> {
+    private static class ExportRowComparator implements Comparator<TimesheetLineItem> {
 
         @Override
-        public int compare(ExportDataRow row1, ExportDataRow row2) {
+        public int compare(TimesheetLineItem row1, TimesheetLineItem row2) {
             String project1 = row1.getWorkStatement().getProjectName();
             String project2 = row2.getWorkStatement().getProjectName();
             int projectCompare = project1.compareTo(project2);
@@ -32,7 +32,7 @@ public class ExportDataRowSorter {
         }
     }
 
-    public List<ExportDataRow> sort(List<ExportDataRow> exportDataRows) {
+    public List<TimesheetLineItem> sort(List<TimesheetLineItem> exportDataRows) {
 
         return exportDataRows;
     }

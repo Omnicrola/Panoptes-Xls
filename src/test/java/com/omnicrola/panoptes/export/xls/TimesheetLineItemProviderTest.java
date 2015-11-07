@@ -2,10 +2,7 @@ package com.omnicrola.panoptes.export.xls;
 
 import com.omnicrola.panoptes.data.TimeData;
 import com.omnicrola.panoptes.data.WorkStatement;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +14,15 @@ import static org.mockito.Mockito.when;
 /**
  * Created by omnic on 10/31/2015.
  */
-public class ExportModelBuilderTest {
+public class TimesheetLineItemProviderTest {
 
     @Test
     public void testBuildDataRows_NoData() throws Exception {
         ArrayList<TimeData> timeblocks = new ArrayList<>();
 
-        ExportModelBuilder exportModelBuilder = createExportModelBuilder();
+        TimesheetLineItemProvider exportModelBuilder = createExportModelBuilder();
 
-        List<ExportDataRow> exportDataRows = exportModelBuilder.buildDataRows(timeblocks);
+        List<TimesheetLineItem> exportDataRows = exportModelBuilder.buildDataRows(timeblocks);
         assertEquals(0, exportDataRows.size());
     }
 
@@ -45,16 +42,16 @@ public class ExportModelBuilderTest {
         timeblocks.add(createTime(project1, card1, role1, elapsedTime2, 0));
         timeblocks.add(createTime(project1, card1, role1, elapsedTime3, 0));
 
-        ExportModelBuilder exportModelBuilder = createExportModelBuilder();
+        TimesheetLineItemProvider exportModelBuilder = createExportModelBuilder();
 
-        List<ExportDataRow> exportDataRows = exportModelBuilder.buildDataRows(timeblocks);
+        List<TimesheetLineItem> exportDataRows = exportModelBuilder.buildDataRows(timeblocks);
         assertEquals(1, exportDataRows.size());
         checkDataRow(project1, card1, role1, expectedTotalTime, exportDataRows.get(0));
     }
 
     @Test
     public void testPassesListToSorter() throws Exception {
-        ExportModelBuilder exportModelBuilder = createExportModelBuilder();
+        TimesheetLineItemProvider exportModelBuilder = createExportModelBuilder();
 
     }
 
@@ -83,9 +80,9 @@ public class ExportModelBuilderTest {
         timeblocks.add(createTime(project2, card1, role1, elapsedTime4, 0));
         timeblocks.add(createTime(project2, card1, role1, elapsedTime5, 0));
 
-        ExportModelBuilder exportModelBuilder = createExportModelBuilder();
+        TimesheetLineItemProvider exportModelBuilder = createExportModelBuilder();
 
-        List<ExportDataRow> exportDataRows = exportModelBuilder.buildDataRows(timeblocks);
+        List<TimesheetLineItem> exportDataRows = exportModelBuilder.buildDataRows(timeblocks);
         assertEquals(3, exportDataRows.size());
 
         checkDataRow(project1, card2, role1, expectedTimeProject1Card2, exportDataRows.get(0));
@@ -93,7 +90,7 @@ public class ExportModelBuilderTest {
         checkDataRow(project2, card1, role1, expectedTimeProject2Card1, exportDataRows.get(2));
     }
 
-    private void checkDataRow(String project1, String card1, String role1, float expectedTotalTime, ExportDataRow exportDataRow) {
+    private void checkDataRow(String project1, String card1, String role1, float expectedTotalTime, TimesheetLineItem exportDataRow) {
         assertEquals(card1, exportDataRow.getCard());
 
         String expectedDescription = project1 + " " + role1 + " " + card1;
@@ -117,11 +114,11 @@ public class ExportModelBuilderTest {
         timeblocks.add(createTime(project1, card1, role1, elapsedTime2, 2));
         timeblocks.add(createTime(project1, card1, role1, elapsedTime3, 3));
 
-        ExportModelBuilder exportModelBuilder = createExportModelBuilder();
+        TimesheetLineItemProvider exportModelBuilder = createExportModelBuilder();
 
-        List<ExportDataRow> exportDataRows = exportModelBuilder.buildDataRows(timeblocks);
+        List<TimesheetLineItem> exportDataRows = exportModelBuilder.buildDataRows(timeblocks);
         assertEquals(1, exportDataRows.size());
-        ExportDataRow exportDataRow = exportDataRows.get(0);
+        TimesheetLineItem exportDataRow = exportDataRows.get(0);
         assertEquals(card1, exportDataRow.getCard());
 
         String expectedDescription = project1 + " " + role1 + " " + card1;
@@ -144,7 +141,7 @@ public class ExportModelBuilderTest {
         String expectedProjectName2 = "Babba";
         String expectedProjectName3 = "Zabba";
 
-        ArrayList<ExportDataRow> dataRows = new ArrayList<>();
+        ArrayList<TimesheetLineItem> dataRows = new ArrayList<>();
         dataRows.add(createExportDataRow(expectedProjectName1));
         dataRows.add(createExportDataRow(expectedProjectName1));
         dataRows.add(createExportDataRow(expectedProjectName2));
@@ -152,8 +149,8 @@ public class ExportModelBuilderTest {
         dataRows.add(createExportDataRow(expectedProjectName2));
         dataRows.add(createExportDataRow(expectedProjectName3));
 
-        ExportModelBuilder exportModelBuilder = new ExportModelBuilder();
-        List<ExportDataRow> resultRows = exportModelBuilder.insertBlankRows(dataRows);
+        TimesheetLineItemProvider exportModelBuilder = new TimesheetLineItemProvider();
+        List<TimesheetLineItem> resultRows = exportModelBuilder.insertBlankRows(dataRows);
 
         assertEquals(8, resultRows.size());
         assertProject(expectedProjectName1, resultRows.get(0));
@@ -166,14 +163,14 @@ public class ExportModelBuilderTest {
         assertProject(expectedProjectName3, resultRows.get(7));
     }
 
-    private void assertProject(String expectedProjectName, ExportDataRow actualDataRow) {
+    private void assertProject(String expectedProjectName, TimesheetLineItem actualDataRow) {
         assertEquals(expectedProjectName, actualDataRow.getWorkStatement().getProjectName());
     }
 
-    private ExportDataRow createExportDataRow(String expectedProjectName1) {
+    private TimesheetLineItem createExportDataRow(String expectedProjectName1) {
         WorkStatement mockStatement = mock(WorkStatement.class);
         when(mockStatement.getProjectName()).thenReturn(expectedProjectName1);
-        return new ExportDataRow(mockStatement, "", "", "", false, false);
+        return new TimesheetLineItem(mockStatement, "", "", "", false, false);
     }
 
     private float randomFloat() {
@@ -190,8 +187,8 @@ public class ExportModelBuilderTest {
         return mockData;
     }
 
-    private ExportModelBuilder createExportModelBuilder() {
-        return new ExportModelBuilder();
+    private TimesheetLineItemProvider createExportModelBuilder() {
+        return new TimesheetLineItemProvider();
     }
 
 

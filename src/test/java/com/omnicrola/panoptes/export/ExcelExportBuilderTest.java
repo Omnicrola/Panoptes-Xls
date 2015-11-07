@@ -1,6 +1,6 @@
 package com.omnicrola.panoptes.export;
 
-import com.omnicrola.panoptes.export.xls.ExcelExporter;
+import com.omnicrola.panoptes.export.xls.*;
 import org.junit.Test;
 
 import static com.omnicrola.test.util.TestUtil.assertIsOfType;
@@ -11,6 +11,12 @@ import static com.omnicrola.test.util.TestUtil.assertIsOfType;
 public class ExcelExportBuilderTest {
     @Test
     public void testBuildsExcelExporter() throws Exception {
-         assertIsOfType(ExcelExporter.class, XlsBuilderFactory.build());
+        XlsExporter xlsExporter = assertIsOfType(XlsExporter.class, XlsBuilderFactory.build());
+
+        assertIsOfType(TimesheetLineItemProvider.class, xlsExporter.getTimesheetLineItemProvider());
+        assertIsOfType(InvoiceLineItemProvider.class, xlsExporter.getInvoiceLineItemProvider());
+        assertIsOfType(InvoiceDataXlsWriter.class, xlsExporter.getInvoiceDataXlsWriter());
+        assertIsOfType(TimesheetDataXlsWriter.class, xlsExporter.getTimesheetDataXlsWriter());
+        assertIsOfType(PersonalDataXlsWriter.class, xlsExporter.getPersonalDataWriter());
     }
 }

@@ -2,9 +2,9 @@ package com.omnicrola.panoptes.export.xls;
 
 import com.omnicrola.panoptes.data.WorkStatement;
 
-public class ExportDataRow {
+public class TimesheetLineItem {
 
-    public static final ExportDataRow EMPTY = new ExportDataRow(WorkStatement.EMPTY, "", "", "",
+    public static final TimesheetLineItem EMPTY = new TimesheetLineItem(WorkStatement.EMPTY, "", "", "",
             false, false);
 
     private final WorkStatement workStatement;
@@ -15,8 +15,8 @@ public class ExportDataRow {
     private final String role;
     private final String card;
 
-    public ExportDataRow(WorkStatement workStatement, String project, String role, String card,
-            boolean billToMenlo, boolean billToClient) {
+    public TimesheetLineItem(WorkStatement workStatement, String project, String role, String card,
+                             boolean billToMenlo, boolean billToClient) {
         this.workStatement = workStatement;
         this.project = project;
         this.role = role;

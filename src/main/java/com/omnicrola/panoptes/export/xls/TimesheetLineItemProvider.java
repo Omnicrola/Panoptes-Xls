@@ -1,51 +1,24 @@
 package com.omnicrola.panoptes.export.xls;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.omnicrola.panoptes.data.TimeData;
 import com.omnicrola.panoptes.data.WorkStatement;
 
-public class ExportModelBuilder {
+public class TimesheetLineItemProvider {
 
-    public List<ExportDataRow> buildDataRows(List<TimeData> timeblocks) {
+    public List<TimesheetLineItem> buildDataRows(List<TimeData> timeblocks) {
         HashMap<String, WorkStatement> projectNameMap = new HashMap<>();
-        HashMap<String, ExportDataRow> rowMap = new HashMap<>();
+        HashMap<String, TimesheetLineItem> rowMap = new HashMap<>();
 
         for (TimeData timeData : timeblocks) {
-            ExportDataRow exportDataRow = getRowForTimeBlock(rowMap, timeData, projectNameMap);
+            TimesheetLineItem exportDataRow = getRowForTimeBlock(rowMap, timeData, projectNameMap);
             exportDataRow.addTime(timeData.getDayOfWeek(), timeData.getElapsedTimeInHours());
         }
         return new ArrayList<>(rowMap.values());
     }
-
-//    public HashMap<String, InvoiceRow> buildInvoiceRows(XSSFWorkbook workbook,
-//                                                        List<ExportDataRow> exportList) {
-//        HashMap<String, InvoiceRow> sowToRowMap = new HashMap<>();
-//
-//        for (ExportDataRow exportDataRow : exportList) {
-//            if (exportDataRow != ExportDataRow.EMPTY) {
-//                String projectCode = exportDataRow.getWorkStatement().getProjectCode();
-//                String projectName = exportDataRow.getWorkStatement().getProjectName();
-//
-//                if (sowToRowMap.containsKey(projectCode)) {
-//                    InvoiceRow invoiceRow = sowToRowMap.get(projectCode);
-//                    invoiceRow.addTime(projectName, exportDataRow.getTotalTime());
-//                } else {
-//                    WorkStatement workStatement = exportDataRow.getWorkStatement();
-//                    InvoiceRow invoiceRow = new InvoiceRow(workStatement);
-//                    invoiceRow.addTime(projectName, exportDataRow.getTotalTime());
-//                    sowToRowMap.put(projectCode, invoiceRow);
-//                }
-//            }
-//        }
-//        return sowToRowMap;
-//    }
-
 
     private String getHashKey(TimeData timeblock) {
         String project = timeblock.getProject();
@@ -55,18 +28,18 @@ public class ExportModelBuilder {
 
     }
 
-    private ExportDataRow getRowForTimeBlock(HashMap<String, ExportDataRow> rowMap, TimeData timeBlock,
+    private TimesheetLineItem getRowForTimeBlock(HashMap<String, TimesheetLineItem> rowMap, TimeData timeBlock,
                                              HashMap<String, WorkStatement> projectNameMap) {
         String hashKey = getHashKey(timeBlock);
         if (rowMap.containsKey(hashKey)) {
             return rowMap.get(hashKey);
         }
-        ExportDataRow exportDataRow = createNewRow(rowMap, timeBlock, projectNameMap);
+        TimesheetLineItem exportDataRow = createNewRow(rowMap, timeBlock, projectNameMap);
 
         return exportDataRow;
     }
 
-    private ExportDataRow createNewRow(HashMap<String, ExportDataRow> rowMap,
+    private TimesheetLineItem createNewRow(HashMap<String, TimesheetLineItem> rowMap,
                                        TimeData timeBlock,
                                        HashMap<String, WorkStatement> projectNameMap) {
         String project = timeBlock.getProject();
@@ -77,7 +50,7 @@ public class ExportModelBuilder {
         if (projectNameMap.containsKey(project)) {
             workStatement = projectNameMap.get(project);
         }
-        ExportDataRow exportDataRow = new ExportDataRow(
+        TimesheetLineItem exportDataRow = new TimesheetLineItem(
                 workStatement,
                 project,
                 role,
@@ -88,13 +61,13 @@ public class ExportModelBuilder {
         return exportDataRow;
     }
 
-    public List<ExportDataRow> insertBlankRows(List<ExportDataRow> dataList) {
+    public List<TimesheetLineItem> insertBlankRows(List<TimesheetLineItem> dataList) {
         List<Integer> indexes = new ArrayList<>();
 
         if (!dataList.isEmpty()) {
             String lastProject = dataList.get(0).getWorkStatement().getProjectName();
 
-            for (ExportDataRow exportDataRow : dataList) {
+            for (TimesheetLineItem exportDataRow : dataList) {
                 String projectName = exportDataRow.getWorkStatement().getProjectName();
                 if (!projectName.equals(lastProject)) {
                     lastProject = projectName;
@@ -105,7 +78,7 @@ public class ExportModelBuilder {
             int arrayEnd = indexes.size() - 1;
             for (int i = arrayEnd; i >= 0; i--) {
                 Integer index = indexes.get(i);
-                dataList.add(index, ExportDataRow.EMPTY);
+                dataList.add(index, TimesheetLineItem.EMPTY);
             }
         }
         return dataList;

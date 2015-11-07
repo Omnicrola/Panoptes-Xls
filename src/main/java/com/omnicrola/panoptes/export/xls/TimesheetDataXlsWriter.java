@@ -9,20 +9,20 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class TimesheetDataExporter {
+public class TimesheetDataXlsWriter {
 
     private static final int INDEX_OF_TOTALS_ROW = 9;
     private static final int TIMESHEET_PROJECT_SUM_COLUMN = 16;
     private final XlsUtilityToolbox toolbox;
 
-    public TimesheetDataExporter(XlsUtilityToolbox toolbox) {
+    public TimesheetDataXlsWriter(XlsUtilityToolbox toolbox) {
         this.toolbox = toolbox;
     }
 
     private void reWriteSumFormulas(XSSFWorkbook workbook, int numberOfNewRows) {
         XSSFSheet timesheet = workbook.getSheetAt(0);
         XSSFRow totalsRow = timesheet.getRow(INDEX_OF_TOTALS_ROW + numberOfNewRows);
-        int start = ExcelExporter.TIMESHEET_ROW_INSERT_POSITION;
+        int start = XlsExporter.TIMESHEET_ROW_INSERT_POSITION;
         int end = start + numberOfNewRows;
         for (int i = 6; i <= 15; i++) {
             reWriteVerticalSumFormula(totalsRow, i, start, end);
@@ -30,7 +30,7 @@ public class TimesheetDataExporter {
     }
 
     private void reWriteVerticalSumFormula(XSSFRow totalsRow, int index, int start, int end) {
-        char letter = ExcelExporter.ALPHANUMERIC[index];
+        char letter = XlsExporter.ALPHANUMERIC[index];
         totalsRow.getCell(index).setCellFormula("SUM(" + letter + start + ":" + letter + end + ")");
     }
 
@@ -53,7 +53,7 @@ public class TimesheetDataExporter {
         cell.setCellValue(stringValue);
     }
 
-    private void writeEmptyRow(XSSFRow sheetRow, ExportDataRow exportRow) {
+    private void writeEmptyRow(XSSFRow sheetRow, TimesheetLineItem exportRow) {
         for (int i = 1; i <= 15; i++) {
             XSSFCell cell = sheetRow.getCell(i);
             cell.setCellType(Cell.CELL_TYPE_BLANK);
@@ -66,21 +66,21 @@ public class TimesheetDataExporter {
         sumCell.setCellFormula("SUM(N" + projectSectionStart + ":N" + projectSectionEnd + ")");
     }
 
-    public void writeTimesheetData(XSSFWorkbook workbook, List<ExportDataRow> exportList) {
-        XSSFSheet timesheet = workbook.getSheetAt(ExcelExporter.SHEET_TIMESHEET);
-        int insertPosition = ExcelExporter.TIMESHEET_ROW_INSERT_POSITION;
+    public void writeTimesheetData(XSSFWorkbook workbook, List<TimesheetLineItem> exportList) {
+        XSSFSheet timesheet = workbook.getSheetAt(XlsExporter.SHEET_TIMESHEET);
+        int insertPosition = XlsExporter.TIMESHEET_ROW_INSERT_POSITION;
         int numberOfNewRows = exportList.size();
 
         timesheet.shiftRows(insertPosition, timesheet.getPhysicalNumberOfRows(), numberOfNewRows,
                 true, true);
-        XSSFRow templateRow = timesheet.getRow(ExcelExporter.TIMESHEET_ROW_INSERT_POSITION - 1);
+        XSSFRow templateRow = timesheet.getRow(XlsExporter.TIMESHEET_ROW_INSERT_POSITION - 1);
 
-        int currentRow = ExcelExporter.TIMESHEET_ROW_INSERT_POSITION;
+        int currentRow = XlsExporter.TIMESHEET_ROW_INSERT_POSITION;
         int projectSectionStart = currentRow;
-        for (ExportDataRow exportRow : exportList) {
+        for (TimesheetLineItem exportRow : exportList) {
             XSSFRow sheetRow = timesheet.createRow(currentRow);
             this.toolbox.copyRow(templateRow, sheetRow);
-            if (exportRow == ExportDataRow.EMPTY) {
+            if (exportRow == TimesheetLineItem.EMPTY) {
                 writeProjectSumFormula(timesheet.getRow(currentRow - 1), projectSectionStart,
                         currentRow);
                 writeEmptyRow(sheetRow, exportRow);
@@ -94,7 +94,7 @@ public class TimesheetDataExporter {
         reWriteSumFormulas(workbook, numberOfNewRows);
     }
 
-    private void writeTimesheetRow(XSSFRow sheetRow, ExportDataRow dataRow) {
+    private void writeTimesheetRow(XSSFRow sheetRow, TimesheetLineItem dataRow) {
 
         boolean billableToMenlo = dataRow.isBillableToMenlo();
         boolean billableToClient = dataRow.isBillableToClient();
