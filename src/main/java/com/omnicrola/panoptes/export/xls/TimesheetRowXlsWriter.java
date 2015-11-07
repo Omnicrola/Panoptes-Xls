@@ -1,5 +1,6 @@
 package com.omnicrola.panoptes.export.xls;
 
+import com.omnicrola.panoptes.export.xls.wrappers.ICell;
 import com.omnicrola.panoptes.export.xls.wrappers.IWorksheetRow;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
@@ -9,31 +10,45 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 public class TimesheetRowXlsWriter {
     public void write(IWorksheetRow worksheetRow, TimesheetLineItem lineItem) {
 
+
+        boolean billableToMenlo = lineItem.isBillableToMenlo();
+        boolean billableToClient = lineItem.isBillableToClient();
+
+        setCellValue(worksheetRow, 'B', lineItem.getWorkStatement().getClient());
+        setCellValue(worksheetRow, 'C', lineItem.getWorkStatement().getProjectCode());
+        setCellValue(worksheetRow, 'D', lineItem.getDescription());
+        setCellValue(worksheetRow, 'E', billableToMenlo);
+        setCellValue(worksheetRow, 'F', billableToClient);
+
+        setCellValue(worksheetRow, 'G', lineItem.getTimeForDay(0));
+        setCellValue(worksheetRow, 'H', lineItem.getTimeForDay(1));
+        setCellValue(worksheetRow, 'I', lineItem.getTimeForDay(2));
+        setCellValue(worksheetRow, 'J', lineItem.getTimeForDay(3));
+        setCellValue(worksheetRow, 'K', lineItem.getTimeForDay(4));
+        setCellValue(worksheetRow, 'L', lineItem.getTimeForDay(5));
+        setCellValue(worksheetRow, 'M', lineItem.getTimeForDay(6));
+
+        int rowIndex = worksheetRow.getRowNumber() + 1;
+        worksheetRow.getCell('N').setFormula("SUM(G" + rowIndex + ":M" + rowIndex + ")");
+        worksheetRow.getCell('O').setFormula("IF((E" + rowIndex + "=\"Y\"),N" + rowIndex + ",0)");
+        worksheetRow.getCell('P').setFormula("IF((F" + rowIndex + "=\"Y\"),N" + rowIndex + ",0)");
+
     }
 
-//    private void writeTimesheetRow(XSSFRow sheetRow, TimesheetLineItem dataRow) {
-//
-//        boolean billableToMenlo = dataRow.isBillableToMenlo();
-//        boolean billableToClient = dataRow.isBillableToClient();
-//
-//        setCellValue(sheetRow, 1, dataRow.getWorkStatement().getClient());
-//        setCellValue(sheetRow, 2, dataRow.getWorkStatement().getProjectCode());
-//        setCellValue(sheetRow, 3, dataRow.getDescription());
-//        setCellValue(sheetRow, 4, billableToMenlo);
-//        setCellValue(sheetRow, 5, billableToClient);
-//
-//        setCellValue(sheetRow, 6, dataRow.getTimeForDay(0), true);
-//        setCellValue(sheetRow, 7, dataRow.getTimeForDay(1), true);
-//        setCellValue(sheetRow, 8, dataRow.getTimeForDay(2), true);
-//        setCellValue(sheetRow, 9, dataRow.getTimeForDay(3), true);
-//        setCellValue(sheetRow, 10, dataRow.getTimeForDay(4), true);
-//        setCellValue(sheetRow, 11, dataRow.getTimeForDay(5), true);
-//        setCellValue(sheetRow, 12, dataRow.getTimeForDay(6), true);
-//
-//        int rowIndex = sheetRow.getRowNum() + 1;
-//        sheetRow.getCell(13).setCellFormula("SUM(G" + rowIndex + ":M" + rowIndex + ")");
-//        sheetRow.getCell(14).setCellFormula("IF((E" + rowIndex + "=\"Y\"),N" + rowIndex + ",0)");
-//        sheetRow.getCell(15).setCellFormula("IF((F" + rowIndex + "=\"Y\"),N" + rowIndex + ",0)");
-//
-//    }
+    private void setCellValue(IWorksheetRow worksheetRow, char column, String value) {
+        worksheetRow.getCell(column).setValue(value);
+    }
+
+    private void setCellValue(IWorksheetRow worksheetRow, char column, boolean value) {
+        worksheetRow.getCell(column).setValue(value ? "Y" : "N");
+    }
+
+    private void setCellValue(IWorksheetRow worksheetRow, char column, float value) {
+        ICell cell = worksheetRow.getCell(column);
+        if (value == 0) {
+            cell.clear();
+        } else {
+            cell.setValue(value);
+        }
+    }
 }

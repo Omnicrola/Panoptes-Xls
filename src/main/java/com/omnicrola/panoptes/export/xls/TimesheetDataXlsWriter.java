@@ -1,7 +1,9 @@
 package com.omnicrola.panoptes.export.xls;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.omnicrola.panoptes.export.xls.wrappers.IWorksheet;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -13,10 +15,17 @@ public class TimesheetDataXlsWriter {
 
     private static final int INDEX_OF_TOTALS_ROW = 9;
     private static final int TIMESHEET_PROJECT_SUM_COLUMN = 16;
-    private final XlsUtilityToolbox toolbox;
+    private  XlsUtilityToolbox toolbox;
+    private TimesheetRowXlsWriter timesheetRowXlsWriter;
 
     public TimesheetDataXlsWriter(XlsUtilityToolbox toolbox) {
         this.toolbox = toolbox;
+    }
+    public TimesheetDataXlsWriter() {
+    }
+
+    public TimesheetDataXlsWriter(TimesheetRowXlsWriter timesheetRowXlsWriter) {
+        this.timesheetRowXlsWriter = timesheetRowXlsWriter;
     }
 
     private void reWriteSumFormulas(XSSFWorkbook workbook, int numberOfNewRows) {
@@ -120,4 +129,7 @@ public class TimesheetDataXlsWriter {
 
     }
 
+    public void write(IWorksheet worksheet, List<TimesheetLineItem> timesheetRows) {
+
+    }
 }
