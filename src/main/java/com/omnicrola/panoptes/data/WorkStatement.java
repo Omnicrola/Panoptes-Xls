@@ -6,10 +6,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 public class WorkStatement {
 
     public static final WorkStatement EMPTY = new WorkStatement("", "", "", "", 0);
+
+    @Required
     private String projectName;
+    @Required
     private String client;
+    @Required
     private String projectCode;
+    @Required
     private String sowCode;
+    @Required
     private float billableRate;
 
     public WorkStatement() {

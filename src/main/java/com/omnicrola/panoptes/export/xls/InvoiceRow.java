@@ -6,7 +6,7 @@ public class InvoiceRow {
 
     private final WorkStatement workStatement;
     private float totalValue;
-    private String description;
+    private String description = "";
 
     public InvoiceRow(WorkStatement workStatement) {
         this.workStatement = workStatement;
@@ -16,7 +16,7 @@ public class InvoiceRow {
     public void addTime(String projectName, float time) {
         this.totalValue += time;
         if (!this.description.contains(projectName)) {
-            this.description += "," + projectName;
+            this.description += ", " + projectName;
         }
     }
 

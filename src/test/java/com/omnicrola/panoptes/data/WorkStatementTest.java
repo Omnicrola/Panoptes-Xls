@@ -32,6 +32,6 @@ public class WorkStatementTest extends ModelTest {
         checkRequiredFieldIsPresent("client", String.class);
         checkRequiredFieldIsPresent("projectCode", String.class);
         checkRequiredFieldIsPresent("sowCode", String.class);
-        checkRequiredFieldIsPresent("billableRate", String.class);
+        checkRequiredFieldIsPresent("billableRate", float.class);
     }
 }

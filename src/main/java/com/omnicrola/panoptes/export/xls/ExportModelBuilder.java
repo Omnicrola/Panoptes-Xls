@@ -12,12 +12,6 @@ import com.omnicrola.panoptes.data.WorkStatement;
 
 public class ExportModelBuilder {
 
-    private ExportDataRowSorter exportDataRowSorter;
-
-    public ExportModelBuilder() {
-        this.exportDataRowSorter = new ExportDataRowSorter();
-    }
-
     public List<ExportDataRow> buildDataRows(List<TimeData> timeblocks) {
         HashMap<String, WorkStatement> projectNameMap = new HashMap<>();
         HashMap<String, ExportDataRow> rowMap = new HashMap<>();
@@ -26,8 +20,7 @@ public class ExportModelBuilder {
             ExportDataRow exportDataRow = getRowForTimeBlock(rowMap, timeData, projectNameMap);
             exportDataRow.addTime(timeData.getDayOfWeek(), timeData.getElapsedTimeInHours());
         }
-
-        return this.exportDataRowSorter.sort(new ArrayList<>(rowMap.values()));
+        return new ArrayList<>(rowMap.values());
     }
 
 //    public HashMap<String, InvoiceRow> buildInvoiceRows(XSSFWorkbook workbook,
@@ -95,8 +88,8 @@ public class ExportModelBuilder {
         return exportDataRow;
     }
 
-    private void insertBlankRows(List<ExportDataRow> dataList) {
-        List<Integer> list = new ArrayList<>();
+    public List<ExportDataRow> insertBlankRows(List<ExportDataRow> dataList) {
+        List<Integer> indexes = new ArrayList<>();
 
         if (!dataList.isEmpty()) {
             String lastProject = dataList.get(0).getWorkStatement().getProjectName();
@@ -105,15 +98,16 @@ public class ExportModelBuilder {
                 String projectName = exportDataRow.getWorkStatement().getProjectName();
                 if (!projectName.equals(lastProject)) {
                     lastProject = projectName;
-                    list.add(dataList.indexOf(exportDataRow));
+                    indexes.add(dataList.indexOf(exportDataRow));
                 }
             }
 
-            int arrayEnd = list.size() - 1;
+            int arrayEnd = indexes.size() - 1;
             for (int i = arrayEnd; i >= 0; i--) {
-                Integer index = list.get(i);
+                Integer index = indexes.get(i);
                 dataList.add(index, ExportDataRow.EMPTY);
             }
         }
+        return dataList;
     }
 }

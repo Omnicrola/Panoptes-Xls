@@ -1,6 +1,7 @@
 package com.omnicrola.panoptes.export.xls;
 
 import com.omnicrola.panoptes.data.TimeData;
+import com.omnicrola.panoptes.data.WorkStatement;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -135,6 +136,44 @@ public class ExportModelBuilderTest {
         assertEquals(0, exportDataRow.getTimeForDay(4), 0);
         assertEquals(0, exportDataRow.getTimeForDay(5), 0);
         assertEquals(0, exportDataRow.getTimeForDay(6), 0);
+    }
+
+    @Test
+    public void testInsertBlankRows() throws Exception {
+        String expectedProjectName1 = "Abba";
+        String expectedProjectName2 = "Babba";
+        String expectedProjectName3 = "Zabba";
+
+        ArrayList<ExportDataRow> dataRows = new ArrayList<>();
+        dataRows.add(createExportDataRow(expectedProjectName1));
+        dataRows.add(createExportDataRow(expectedProjectName1));
+        dataRows.add(createExportDataRow(expectedProjectName2));
+        dataRows.add(createExportDataRow(expectedProjectName2));
+        dataRows.add(createExportDataRow(expectedProjectName2));
+        dataRows.add(createExportDataRow(expectedProjectName3));
+
+        ExportModelBuilder exportModelBuilder = new ExportModelBuilder();
+        List<ExportDataRow> resultRows = exportModelBuilder.insertBlankRows(dataRows);
+
+        assertEquals(8, resultRows.size());
+        assertProject(expectedProjectName1, resultRows.get(0));
+        assertProject(expectedProjectName1, resultRows.get(1));
+        assertProject("", resultRows.get(2));
+        assertProject(expectedProjectName2, resultRows.get(3));
+        assertProject(expectedProjectName2, resultRows.get(4));
+        assertProject(expectedProjectName2, resultRows.get(5));
+        assertProject("", resultRows.get(6));
+        assertProject(expectedProjectName3, resultRows.get(7));
+    }
+
+    private void assertProject(String expectedProjectName, ExportDataRow actualDataRow) {
+        assertEquals(expectedProjectName, actualDataRow.getWorkStatement().getProjectName());
+    }
+
+    private ExportDataRow createExportDataRow(String expectedProjectName1) {
+        WorkStatement mockStatement = mock(WorkStatement.class);
+        when(mockStatement.getProjectName()).thenReturn(expectedProjectName1);
+        return new ExportDataRow(mockStatement, "", "", "", false, false);
     }
 
     private float randomFloat() {

@@ -3,6 +3,9 @@ package com.omnicrola.panoptes.export.xls;
 import com.omnicrola.panoptes.data.WorkStatement;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -11,14 +14,11 @@ import static org.mockito.Mockito.when;
 /**
  * Created by omnic on 10/31/2015.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class InvoiceRowTest {
 
+    @Mock
     private WorkStatement mockWorkStatement;
-
-    @Before
-    public void setup() {
-        this.mockWorkStatement = mock(WorkStatement.class);
-    }
 
     @Test
     public void testGetConstructorArgs() throws Exception {
@@ -33,6 +33,7 @@ public class InvoiceRowTest {
 
     @Test
     public void testKeepsTotalTime() throws Exception {
+        when(this.mockWorkStatement.getProjectName()).thenReturn("");
         InvoiceRow invoiceRow = createInvoiceRow();
         float time1 = randomFloat();
         float time2 = randomFloat();

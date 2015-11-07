@@ -1,5 +1,6 @@
 package com.omnicrola.test.util;
 
+import com.omnicrola.panoptes.data.Required;
 import junit.framework.AssertionFailedError;
 
 import java.lang.annotation.Annotation;
@@ -29,6 +30,23 @@ public class TestUtil {
                     sourceObject.getClass().getSimpleName() +
                     "' was not of type : " +
                     targetClass.getSimpleName());
+        }
+    }
+
+    public static void assertClassIsChildOf(Class<?> targetClass, Class<?> expectedParentClass) {
+        Class<?> superclass = targetClass.getSuperclass();
+        if (!superclass.equals(expectedParentClass)) {
+            throw new AssertionFailedError("Class " + targetClass.getName() + " was not a child class of " + expectedParentClass.getName() + " \n was actually : " + superclass.getName());
+        }
+    }
+
+    public static void assertImplementsInterface(Class<?> targetClass, Class<?> expectedInterface) {
+        Class<?>[] interfaces = targetClass.getInterfaces();
+        if (interfaces.length != 1) {
+            throw new AssertionFailedError("Class '" + targetClass.getName() + "' does not implement exactly one interface of type : " + expectedInterface.getName());
+        }
+        if (!expectedInterface.equals(interfaces[0])) {
+            throw new AssertionFailedError("Class " + targetClass.getName() + " does not implement interface : " + expectedInterface.getName());
         }
     }
 
@@ -130,4 +148,20 @@ public class TestUtil {
                 "" + interfaceClass.getName());
     }
 
+    public static void assertRequiredFieldIsPresent(String fieldName, Class<?> targetClass) throws Exception {
+        Field field = assertFieldIsPresent(fieldName, targetClass);
+        Required annotation = field.getAnnotation(Required.class);
+        if (annotation == null) {
+            throw new AssertionFailedError("The '@Required' annotation was not present on field '" + fieldName + "'");
+        }
+    }
+
+    public static Field assertFieldIsPresent(String fieldName, Class<?> targetClass) throws Exception {
+        try {
+            Field field = targetClass.getField(fieldName);
+            return field;
+        } catch (NoSuchFieldException e) {
+            throw new AssertionFailedError("Field " + fieldName + " was not present");
+        }
+    }
 }
