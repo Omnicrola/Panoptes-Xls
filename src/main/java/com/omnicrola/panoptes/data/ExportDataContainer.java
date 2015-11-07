@@ -1,6 +1,7 @@
 package com.omnicrola.panoptes.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by omnic on 11/5/2015.
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 public class ExportDataContainer {
 
     @Required
-    public ArrayList<TimeData> timeblocks;
+    public List<TimeData> timeblocks;
     @Required
-    public ArrayList<WorkStatement> workStatements;
+    public List<WorkStatement> workStatements;
 }

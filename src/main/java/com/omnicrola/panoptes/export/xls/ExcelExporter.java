@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.omnicrola.panoptes.PanoptesException;
+import com.omnicrola.panoptes.data.ExportDataContainer;
 import com.omnicrola.panoptes.export.DateWrapper;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -16,7 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelExporter   {
 
-    private static final String INVOICE_TEMPLATE_FILE = "/resources/invoiceTemplate.xlsx";
+    private static final String TEMPLATE_FILENAME = "invoiceTemplate.xlsx";
 
     static final char[] ALPHANUMERIC = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
             'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
@@ -25,19 +26,23 @@ public class ExcelExporter   {
     static final int SHEET_TIMESHEET = 0;
     static final int SHEET_INVOICE = 1;
 
-    private final ExportModelBuilder exportModelBuilder;
-    private final PersonalDataExporter personalDataExporter;
-    private final TimesheetDataExporter dataExporter;
-    private final InvoiceExporter invoiceExporter;
+    private  ExportModelBuilder exportModelBuilder;
+    private  PersonalDataExporter personalDataExporter;
+    private  TimesheetDataExporter dataExporter;
+    private  InvoiceExporter invoiceExporter;
 
-    public ExcelExporter( ExportModelBuilder exportModelBuilder,
-            PersonalDataExporter personalDataWriter, TimesheetDataExporter dataExporter,
-            InvoiceExporter invoiceExporter) {
-        this.exportModelBuilder = exportModelBuilder;
-        this.personalDataExporter = personalDataWriter;
-        this.dataExporter = dataExporter;
-        this.invoiceExporter = invoiceExporter;
+    public XSSFWorkbook build(ExportDataContainer exportDataContainer) {
+        return XlsFileLoader.loadTemplate(TEMPLATE_FILENAME);
     }
+
+//    public ExcelExporter( ExportModelBuilder exportModelBuilder,
+//            PersonalDataExporter personalDataWriter, TimesheetDataExporter dataExporter,
+//            InvoiceExporter invoiceExporter) {
+//        this.exportModelBuilder = exportModelBuilder;
+//        this.personalDataExporter = personalDataWriter;
+//        this.dataExporter = dataExporter;
+//        this.invoiceExporter = invoiceExporter;
+//    }
 //
 //    private void actuallySaveFile(OutputStream outputStream, XSSFWorkbook workbook)   {
 //        try {
@@ -48,20 +53,7 @@ public class ExcelExporter   {
 //        }
 //    }
 //
-//    private XSSFWorkbook loadInvoiceTemplate()   {
-//        try {
-//            InputStream fileInputStream = getClass().getResourceAsStream(INVOICE_TEMPLATE_FILE);
-//            XSSFWorkbook xssfWorkbook = new XSSFWorkbook(fileInputStream);
-//            return xssfWorkbook;
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//            throw new PanoptesException("Export failed.\nThe invoice template \""
-//                    + INVOICE_TEMPLATE_FILE + "\" could not be found.");
-//        } catch (IOException e) {
-//            throw new PanoptesException(
-//                    "Export failed.\nAn I/O error was encountered while reading the inoice template file.");
-//        }
-//    }
+
 //
 //    private void refreshFormulas(XSSFWorkbook workbook) {
 //        XSSFFormulaEvaluator formulaEvaluator = workbook.getCreationHelper()
