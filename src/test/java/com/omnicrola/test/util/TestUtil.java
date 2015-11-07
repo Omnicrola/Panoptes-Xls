@@ -92,6 +92,17 @@ public class TestUtil {
         return random.nextInt(maximum);
     }
 
+    public static float randomFloat() {
+        return random.nextFloat();
+    }
+
+    public static float randomFloat(float multiplier) {
+        return random.nextFloat() * multiplier;
+    }
+    public static boolean randomBoolean(){
+        return randomInt(100) > 50;
+    }
+
     public static String randomString(int length) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < length; i++) {
@@ -164,4 +175,6 @@ public class TestUtil {
             throw new AssertionFailedError("Field " + fieldName + " was not present");
         }
     }
+
+
 }

@@ -64,15 +64,6 @@ public class XlsExporter {
     }
 
 
-    //    public ExcelExporter( ExportModelBuilder exportModelBuilder,
-//            PersonalDataExporter personalDataWriter, TimesheetDataExporter timesheetDataXlsWriter,
-//            InvoiceExporter invoiceDataXlsWriter) {
-//        this.exportModelBuilder = exportModelBuilder;
-//        this.personalDataWriter = personalDataWriter;
-//        this.timesheetDataXlsWriter = timesheetDataXlsWriter;
-//        this.invoiceDataXlsWriter = invoiceDataXlsWriter;
-//    }
-//
 //
 //    private void refreshFormulas(XSSFWorkbook workbook) {
 //        XSSFFormulaEvaluator formulaEvaluator = workbook.getCreationHelper()
@@ -87,29 +78,6 @@ public class XlsExporter {
 //                    formulaEvaluator.evaluateFormulaCell(cell);
 //                }
 //            }
-//        }
-//    }
-//
-//
-//    public void writeDataToFile(File destination, DateWrapper weekEnding, TimeblockSet timeblocks)
-//            throws PanoptesException {
-//
-//        XSSFWorkbook workbook = loadInvoiceTemplate();
-//        List<ExportDataRow> exportList = this.exportModelBuilder.buildDataRows(timeblocks);
-//
-//        if (exportList.isEmpty()) {
-//            throw new PanoptesException("No data to save!");
-//        } else {
-//            HashMap<String, InvoiceRow> invoiceRows = this.exportModelBuilder.buildInvoiceRows(
-//                    workbook, exportList);
-//
-//            this.personalDataWriter.writePersonalData(workbook,
-//                    this.controller.getPersonalData(), weekEnding);
-//            this.timesheetDataXlsWriter.writeTimesheetData(workbook, exportList);
-//            this.invoiceDataXlsWriter.writeInvoiceData(workbook.getSheetAt(SHEET_INVOICE), invoiceRows);
-//
-//            refreshFormulas(workbook);
-//            actuallySaveFile(destination, workbook);
 //        }
 //    }
 
