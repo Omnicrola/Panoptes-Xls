@@ -11,7 +11,7 @@ import static com.omnicrola.test.util.TestUtil.assertIsOfType;
 public class ExcelExportBuilderTest {
     @Test
     public void testBuildsExcelExporter() throws Exception {
-        XlsExporter xlsExporter = assertIsOfType(XlsExporter.class, XlsBuilderFactory.build());
+        XlsWriter xlsExporter = assertIsOfType(XlsWriter.class, XlsWriterFactory.build());
 
         assertIsOfType(TimesheetLineItemProvider.class, xlsExporter.getTimesheetLineItemProvider());
         assertIsOfType(InvoiceLineItemProvider.class, xlsExporter.getInvoiceLineItemProvider());

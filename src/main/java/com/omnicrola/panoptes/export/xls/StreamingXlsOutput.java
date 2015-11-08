@@ -1,5 +1,6 @@
 package com.omnicrola.panoptes.export.xls;
 
+import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.ws.rs.WebApplicationException;
@@ -11,9 +12,9 @@ import java.io.OutputStream;
  * Created by omnic on 11/7/2015.
  */
 public class StreamingXlsOutput implements StreamingOutput {
-    private XSSFWorkbook workbook;
+    private IWorkbook workbook;
 
-    public StreamingXlsOutput(XSSFWorkbook workbook) {
+    public StreamingXlsOutput(IWorkbook workbook) {
         this.workbook = workbook;
     }
 
@@ -22,7 +23,7 @@ public class StreamingXlsOutput implements StreamingOutput {
         workbook.write(outputStream);
     }
 
-    public XSSFWorkbook getWorkbook() {
+    public IWorkbook getWorkbook() {
         return workbook;
     }
 }

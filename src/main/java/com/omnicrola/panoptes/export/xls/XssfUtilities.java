@@ -6,15 +6,15 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class XlsUtilityToolbox {
+public class XssfUtilities {
 
-    public void copyCell(XSSFCell sourceCell, XSSFCell destinationCell) {
+    public static void copyCell(XSSFCell sourceCell, XSSFCell destinationCell) {
         destinationCell.setCellComment(sourceCell.getCellComment());
         destinationCell.setCellStyle(sourceCell.getCellStyle());
         copyCellData(destinationCell, sourceCell);
     }
 
-    public void copyCellData(XSSFCell destinationCell, XSSFCell sourceCell) {
+    public static void copyCellData(XSSFCell destinationCell, XSSFCell sourceCell) {
         int cellType = sourceCell.getCellType();
         switch (cellType) {
         case Cell.CELL_TYPE_BOOLEAN:
@@ -37,7 +37,7 @@ public class XlsUtilityToolbox {
         }
     }
 
-    public void copyRow(XSSFRow source, XSSFRow destination) {
+    public static void copyRow(XSSFRow source, XSSFRow destination) {
         destination.setHeight(source.getHeight());
         destination.setRowStyle(source.getRowStyle());
 
@@ -49,11 +49,11 @@ public class XlsUtilityToolbox {
         }
     }
 
-    public XSSFCell getCellAt(XSSFWorkbook workbook, int sheet, int row, int column) {
+    public static XSSFCell getCellAt(XSSFWorkbook workbook, int sheet, int row, int column) {
         return workbook.getSheetAt(sheet).getRow(row).getCell(column);
     }
 
-    public String join(String glue, String... elements) {
+    public static String join(String glue, String... elements) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < elements.length; i++) {
             String singleElement = elements[i];

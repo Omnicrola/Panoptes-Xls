@@ -5,4 +5,8 @@ package com.omnicrola.panoptes.export.xls.wrappers;
  */
 public interface IWorksheet {
     IWorksheetRow getRow(int rowNumber);
+
+    void insertRowsAt(int insertPosition, int rowsToInsert);
+
+    void copyRow(int sourceRowIndex, int destinationRowIndex);
 }

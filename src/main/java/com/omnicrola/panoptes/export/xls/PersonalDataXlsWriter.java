@@ -5,23 +5,23 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class PersonalDataXlsWriter {
 
-    private final XlsUtilityToolbox toolbox;
+    private  XssfUtilities toolbox;
 
-    public PersonalDataXlsWriter(XlsUtilityToolbox toolbox) {
-        this.toolbox = toolbox;
-    }
+//    public PersonalDataXlsWriter(XssfUtilities toolbox) {
+//        this.toolbox = toolbox;
+//    }
 
 
     private XSSFCell getCompanyCell(XSSFWorkbook workbook) {
-        return this.toolbox.getCellAt(workbook, XlsExporter.SHEET_TIMESHEET, 2, 2);
+        return this.toolbox.getCellAt(workbook, XlsWriter.SHEET_TIMESHEET, 2, 2);
     }
 
     private XSSFCell getNameCell(XSSFWorkbook workbook) {
-        return this.toolbox.getCellAt(workbook, XlsExporter.SHEET_TIMESHEET, 1, 2);
+        return this.toolbox.getCellAt(workbook, XlsWriter.SHEET_TIMESHEET, 1, 2);
     }
 
     private XSSFCell getWeekEndingCell(XSSFWorkbook workbook) {
-        return this.toolbox.getCellAt(workbook, XlsExporter.SHEET_TIMESHEET, 3, 2);
+        return this.toolbox.getCellAt(workbook, XlsWriter.SHEET_TIMESHEET, 3, 2);
     }
 
 //    private void writeInvoicePersonalInfo(XSSFWorkbook workbook, IReadPersonalData personalData,

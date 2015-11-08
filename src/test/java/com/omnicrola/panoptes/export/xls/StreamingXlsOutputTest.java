@@ -1,5 +1,6 @@
 package com.omnicrola.panoptes.export.xls;
 
+import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +27,7 @@ public class StreamingXlsOutputTest {
 
     @Test
     public void testWriteWillExportXlsWorkbook() throws Exception {
-        XSSFWorkbook mockWorkbook = PowerMockito.mock(XSSFWorkbook.class);
+        IWorkbook mockWorkbook = PowerMockito.mock(IWorkbook.class);
         OutputStream mockOutputStream = PowerMockito.mock(OutputStream.class);
 
         StreamingXlsOutput streamingXlsOutput = new StreamingXlsOutput(mockWorkbook);

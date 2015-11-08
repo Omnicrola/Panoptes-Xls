@@ -1,6 +1,8 @@
 package com.omnicrola.panoptes.export.xls;
 
 import com.omnicrola.panoptes.data.ExportDataContainer;
+import com.omnicrola.panoptes.export.TemplateConfiguration;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.inject.Inject;
@@ -8,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class XlsExporter {
+public class XlsWriter {
 
     private static final String TEMPLATE_FILENAME = "invoiceTemplate.xlsx";
 
@@ -24,21 +26,28 @@ public class XlsExporter {
     private PersonalDataXlsWriter personalDataWriter;
     private TimesheetDataXlsWriter timesheetDataXlsWriter;
     private InvoiceDataXlsWriter invoiceDataXlsWriter;
+    private TemplateConfiguration templateConfig;
 
-    public XlsExporter(TimesheetLineItemProvider timesheetLineItemProvider, InvoiceLineItemProvider invoiceLineItemProvider,
-                       PersonalDataXlsWriter personalDataWriter, TimesheetDataXlsWriter timesheetDataXlsWriter, InvoiceDataXlsWriter invoiceDataXlsWriter) {
+    public XlsWriter(TimesheetLineItemProvider timesheetLineItemProvider,
+                     InvoiceLineItemProvider invoiceLineItemProvider,
+                     PersonalDataXlsWriter personalDataWriter,
+                     TimesheetDataXlsWriter timesheetDataXlsWriter,
+                     InvoiceDataXlsWriter invoiceDataXlsWriter, TemplateConfiguration templateConfig) {
         this.timesheetLineItemProvider = timesheetLineItemProvider;
         this.invoiceLineItemProvider = invoiceLineItemProvider;
         this.personalDataWriter = personalDataWriter;
         this.timesheetDataXlsWriter = timesheetDataXlsWriter;
         this.invoiceDataXlsWriter = invoiceDataXlsWriter;
+        this.templateConfig = templateConfig;
     }
 
-    public XSSFWorkbook build(ExportDataContainer exportDataContainer) {
-        XSSFWorkbook workbook = XlsFileLoader.loadTemplate(TEMPLATE_FILENAME);
+    public IWorkbook write(ExportDataContainer exportDataContainer) {
+        IWorkbook workbook = XlsFileLoader.loadTemplate(TEMPLATE_FILENAME);
         List<TimesheetLineItem> timesheetRows = this.timesheetLineItemProvider.buildDataRows(exportDataContainer.timeblocks);
         Map<String, InvoiceRow> invoiceRows = this.invoiceLineItemProvider.create(timesheetRows);
-        this.timesheetDataXlsWriter.writeTimesheetData(workbook, timesheetRows);
+
+        int timeSheetIndex = this.templateConfig.getIndexOfTimesheetSheet();
+        this.timesheetDataXlsWriter.write(workbook.getSheet(timeSheetIndex), timesheetRows);
         this.invoiceDataXlsWriter.writeInvoiceData(workbook, invoiceRows);
         return workbook;
     }
@@ -61,6 +70,10 @@ public class XlsExporter {
 
     public InvoiceDataXlsWriter getInvoiceDataXlsWriter() {
         return invoiceDataXlsWriter;
+    }
+
+    public TemplateConfiguration getTemplateConfiguration() {
+        return this.templateConfig;
     }
 
 

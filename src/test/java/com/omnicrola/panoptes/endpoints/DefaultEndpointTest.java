@@ -1,10 +1,10 @@
 package com.omnicrola.panoptes.endpoints;
 
 import com.omnicrola.panoptes.data.ExportDataContainer;
-import com.omnicrola.panoptes.export.XlsBuilderFactory;
-import com.omnicrola.panoptes.export.xls.XlsExporter;
+import com.omnicrola.panoptes.export.XlsWriterFactory;
 import com.omnicrola.panoptes.export.xls.StreamingXlsOutput;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import com.omnicrola.panoptes.export.xls.XlsWriter;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -23,25 +23,26 @@ import java.util.Collections;
 
 import static com.omnicrola.test.util.TestUtil.assertAnnotationPresent;
 import static com.omnicrola.test.util.TestUtil.assertIsOfType;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * Created by omnic on 10/25/2015.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(XlsBuilderFactory.class)
+@PrepareForTest(XlsWriterFactory.class)
 public class DefaultEndpointTest extends EndpointTest {
 
     @Mock
-    XlsExporter mockXlsBuilder;
+    XlsWriter mockXlsBuilder;
     @Mock
-    XSSFWorkbook mockWorkbook;
+    IWorkbook mockWorkbook;
 
     @Test
     public void testHasCorrectAnnotations() throws Exception {
         Class<DefaultEndpoint> defaultEndpointClass = DefaultEndpoint.class;
-        assertApiPath(defaultEndpointClass, "build");
+        assertApiPath(defaultEndpointClass, "write");
 
         Method defaultAction = defaultEndpointClass.getDeclaredMethod("defaultAction");
         assertAnnotationPresent(defaultAction, GET.class);
@@ -52,14 +53,14 @@ public class DefaultEndpointTest extends EndpointTest {
 
     @Test
     public void testExportsAnXls() throws Exception {
-        PowerMockito.mockStatic(XlsBuilderFactory.class);
+        PowerMockito.mockStatic(XlsWriterFactory.class);
 
         ExportDataContainer exportDataContainer = new ExportDataContainer();
         exportDataContainer.workStatements = Collections.unmodifiableList(new ArrayList<>());
         exportDataContainer.timeblocks = Collections.unmodifiableList(new ArrayList<>());
 
-        when(XlsBuilderFactory.build()).thenReturn(this.mockXlsBuilder);
-        when(this.mockXlsBuilder.build(exportDataContainer)).thenReturn(this.mockWorkbook);
+        when(XlsWriterFactory.build()).thenReturn(this.mockXlsBuilder);
+        when(this.mockXlsBuilder.write(exportDataContainer)).thenReturn(this.mockWorkbook);
 
         DefaultEndpoint defaultEndpoint = new DefaultEndpoint();
         StreamingOutput streamingOutput = defaultEndpoint.createXls(exportDataContainer);

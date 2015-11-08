@@ -1,6 +1,8 @@
 package com.omnicrola.panoptes.export.xls;
 
 import com.omnicrola.panoptes.PanoptesException;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
+import com.omnicrola.panoptes.export.xls.wrappers.PanoptesWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileNotFoundException;
@@ -12,14 +14,14 @@ import java.io.InputStream;
  */
 public class XlsFileLoader {
 
-    public static XSSFWorkbook loadTemplate(String filename) {
+    public static IWorkbook loadTemplate(String filename) {
         try {
             InputStream fileInputStream = XlsFileLoader.class.getResourceAsStream(filename);
             if (fileInputStream == null) {
                 throw new FileNotFoundException(filename);
             }
             XSSFWorkbook xssfWorkbook = new XSSFWorkbook(fileInputStream);
-            return xssfWorkbook;
+            return new PanoptesWorkbook(xssfWorkbook);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             throw new PanoptesException("Export failed.\nThe invoice template \""

@@ -1,6 +1,9 @@
 package com.omnicrola.panoptes.export.xls;
 
 import com.omnicrola.panoptes.data.ExportDataContainer;
+import com.omnicrola.panoptes.export.TemplateConfiguration;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorksheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,9 +25,11 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(XlsFileLoader.class)
-public class ExcelExporterTest {
+public class XlsWriterTest {
     @Mock
-    XSSFWorkbook mockWorkbook;
+    IWorkbook mockWorkbook;
+    @Mock
+    IWorksheet mockWorksheet;
     @Mock
     InvoiceLineItemProvider invoiceLineItemProvider;
     @Mock
@@ -35,10 +40,17 @@ public class ExcelExporterTest {
     InvoiceDataXlsWriter invoiceDataWriter;
     @Mock
     TimesheetDataXlsWriter timesheetDataXlsWriter;
+    @Mock
+    TemplateConfiguration mockTemplateConfig;
 
     @Test
     public void testLoadsDataFromProvidersIntoWriters() throws Exception {
         setFileLoaderToReturnWorkbook();
+
+        int expectedTimsheetIndex = 293;
+        when(this.mockTemplateConfig.getIndexOfTimesheetSheet()).thenReturn(expectedTimsheetIndex);
+        when(this.mockWorkbook.getSheet(expectedTimsheetIndex)).thenReturn(this.mockWorksheet);
+
         ExportDataContainer mockDataContainer = createDataContainer();
         List<TimesheetLineItem> expectedTimesheetRows = Collections.unmodifiableList(new ArrayList<>());
         Map<String, InvoiceRow> expectedInvoiceRows = Collections.unmodifiableMap(new HashMap<>());
@@ -46,13 +58,13 @@ public class ExcelExporterTest {
         when(timesheetLineItemProvider.buildDataRows(any(List.class))).thenReturn(expectedTimesheetRows);
         when(invoiceLineItemProvider.create(any(List.class))).thenReturn(expectedInvoiceRows);
 
-        XlsExporter excelExporter = createExporter();
+        XlsWriter excelExporter = createExporter();
 
-        XSSFWorkbook workbook = excelExporter.build(mockDataContainer);
+        IWorkbook workbook = excelExporter.write(mockDataContainer);
         assertSame(this.mockWorkbook, workbook);
         verify(timesheetLineItemProvider).buildDataRows(mockDataContainer.timeblocks);
         verify(invoiceLineItemProvider).create(expectedTimesheetRows);
-        verify(timesheetDataXlsWriter).writeTimesheetData(this.mockWorkbook, expectedTimesheetRows);
+        verify(timesheetDataXlsWriter).write(this.mockWorksheet, expectedTimesheetRows);
         verify(invoiceDataWriter).writeInvoiceData(this.mockWorkbook, expectedInvoiceRows);
     }
 
@@ -68,7 +80,12 @@ public class ExcelExporterTest {
         when(XlsFileLoader.loadTemplate("invoiceTemplate.xlsx")).thenReturn(this.mockWorkbook);
     }
 
-    private XlsExporter createExporter() {
-        return new XlsExporter(this.timesheetLineItemProvider, this.invoiceLineItemProvider, this.personalDataWriter, this.timesheetDataXlsWriter, this.invoiceDataWriter);
+    private XlsWriter createExporter() {
+        return new XlsWriter(this.timesheetLineItemProvider,
+                this.invoiceLineItemProvider,
+                this.personalDataWriter,
+                this.timesheetDataXlsWriter,
+                this.invoiceDataWriter,
+                this.mockTemplateConfig);
     }
 }

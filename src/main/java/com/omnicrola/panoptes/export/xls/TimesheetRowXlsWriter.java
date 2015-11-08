@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
  * Created by omnic on 11/7/2015.
  */
 public class TimesheetRowXlsWriter {
+
     public void write(IWorksheetRow worksheetRow, TimesheetLineItem lineItem) {
 
 

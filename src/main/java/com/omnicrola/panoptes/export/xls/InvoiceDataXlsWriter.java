@@ -1,21 +1,18 @@
 package com.omnicrola.panoptes.export.xls;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
+import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class InvoiceDataXlsWriter {
 
     private static final int TEMPORARY_TEMPLATE_INDEX = 99;
-    private final XlsUtilityToolbox toolbox;
+    private  XssfUtilities toolbox;
 
-    public InvoiceDataXlsWriter(XlsUtilityToolbox toolbox) {
-        this.toolbox = toolbox;
-    }
+//    public InvoiceDataXlsWriter(XssfUtilities toolbox) {
+//        this.toolbox = toolbox;
+//    }
 
     private void insertRowData(XSSFRow newRow, InvoiceRow invoiceRow) {
         newRow.getCell(0).setCellValue(invoiceRow.getDescription());
@@ -31,7 +28,7 @@ public class InvoiceDataXlsWriter {
         newRow.getCell(5).setCellFormula("E" + rowNum + "*D" + rowNum);
     }
 
-    public void writeInvoiceData(XSSFWorkbook workbook, Map<String, InvoiceRow> sowToInvoiceMap) {
+    public void writeInvoiceData(IWorkbook workbook, Map<String, InvoiceRow> sowToInvoiceMap) {
 //        int totalNewRows = sowToInvoiceMap.size();
 //
 //        final int insertPoint = XlsExporter.INVOICE_ROW_INSERTION_POSITION;
