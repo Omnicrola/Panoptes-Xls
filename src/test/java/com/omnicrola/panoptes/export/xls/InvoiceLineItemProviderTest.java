@@ -2,11 +2,9 @@ package com.omnicrola.panoptes.export.xls;
 
 import com.omnicrola.panoptes.data.WorkStatement;
 import org.junit.Test;
-import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;

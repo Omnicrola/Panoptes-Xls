@@ -1,12 +1,11 @@
 package com.omnicrola.panoptes.data;
 
-import com.omnicrola.panoptes.export.DateWrapper;
 import org.junit.Test;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by omnic on 10/31/2015.

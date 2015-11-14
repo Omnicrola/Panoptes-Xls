@@ -1,7 +1,6 @@
 package com.omnicrola.panoptes.export.xls;
 
 import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.StreamingOutput;

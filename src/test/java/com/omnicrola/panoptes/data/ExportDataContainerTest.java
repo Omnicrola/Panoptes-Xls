@@ -1,9 +1,7 @@
 package com.omnicrola.panoptes.data;
 
-import junit.framework.AssertionFailedError;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static com.omnicrola.test.util.TestUtil.assertRequiredFieldIsPresent;

@@ -2,8 +2,8 @@ package com.omnicrola.panoptes.export.xls;
 
 import com.omnicrola.panoptes.data.WorkStatement;
 import com.omnicrola.panoptes.export.xls.wrappers.ICell;
-import com.omnicrola.panoptes.export.xls.wrappers.IWorksheetRow;
 import com.omnicrola.panoptes.export.xls.wrappers.IWorksheet;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorksheetRow;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

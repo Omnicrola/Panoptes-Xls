@@ -3,16 +3,14 @@ package com.omnicrola.panoptes.export.xls;
 import com.omnicrola.panoptes.data.ExportDataContainer;
 import com.omnicrola.panoptes.export.TemplateConfiguration;
 import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
 
 public class XlsWriter {
 
-    private static final String TEMPLATE_FILENAME = "invoiceTemplate.xlsx";
+    private static final String TEMPLATE_FILENAME = "/invoiceTemplate.xlsx";
 
     static final char[] ALPHANUMERIC = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
             'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};

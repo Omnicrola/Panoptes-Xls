@@ -7,7 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 /**
  * Created by omnic on 11/7/2015.
  */
-public class PanoptesWorksheet  implements IWorksheet{
+public class PanoptesWorksheet implements IWorksheet {
     private XSSFSheet xssfSheet;
 
     public PanoptesWorksheet(XSSFSheet xssfSheet) {
@@ -25,6 +25,9 @@ public class PanoptesWorksheet  implements IWorksheet{
 
     @Override
     public void insertRowsAt(int insertPosition, int rowsToInsert) {
+        if (rowsToInsert == 0) {
+            return;
+        }
         this.xssfSheet.shiftRows(insertPosition, xssfSheet.getPhysicalNumberOfRows(), rowsToInsert, true, true);
     }
 

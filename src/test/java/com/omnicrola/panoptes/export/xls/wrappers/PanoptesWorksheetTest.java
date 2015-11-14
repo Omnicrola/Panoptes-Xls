@@ -6,17 +6,17 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static com.omnicrola.test.util.TestUtil.assertIsOfType;
 import static com.omnicrola.test.util.TestUtil.randomInt;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyZeroInteractions;
 
 /**
  * Created by omnic on 11/8/2015.
@@ -77,6 +77,20 @@ public class PanoptesWorksheetTest {
         sheet.insertRowsAt(insertPosition, rowsToInsert);
 
         verify(this.mockSheet).shiftRows(insertPosition, physicalRowCount, rowsToInsert, true, true);
+    }
+
+    @Test
+    public void testInsertRowsAt_IgnoresZeroShifts() throws Exception {
+        int insertPosition = randomInt();
+        int rowsToInsert = 0;
+
+        int physicalRowCount = randomInt();
+        when(this.mockSheet.getPhysicalNumberOfRows()).thenReturn(physicalRowCount);
+
+        PanoptesWorksheet sheet = createSheet();
+        sheet.insertRowsAt(insertPosition, rowsToInsert);
+
+        verifyZeroInteractions(this.mockSheet);
     }
 
     private PanoptesWorksheet createSheet() {

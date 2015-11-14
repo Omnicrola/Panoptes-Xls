@@ -3,7 +3,6 @@ package com.omnicrola.panoptes.data;
 import org.junit.Test;
 
 import static com.omnicrola.test.util.TestUtil.assertEquality;
-import static org.junit.Assert.*;
 
 /**
  * Created by omnic on 10/31/2015.

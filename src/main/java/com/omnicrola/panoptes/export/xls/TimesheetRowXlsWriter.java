@@ -2,7 +2,6 @@ package com.omnicrola.panoptes.export.xls;
 
 import com.omnicrola.panoptes.export.xls.wrappers.ICell;
 import com.omnicrola.panoptes.export.xls.wrappers.IWorksheetRow;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 
 /**
  * Created by omnic on 11/7/2015.

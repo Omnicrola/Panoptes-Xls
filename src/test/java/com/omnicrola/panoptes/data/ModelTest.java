@@ -1,11 +1,6 @@
 package com.omnicrola.panoptes.data;
 
-import com.omnicrola.panoptes.data.Required;
-
 import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Optional;
-
 
 import static com.omnicrola.test.util.TestUtil.assertFieldHasAnnotation;
 import static com.omnicrola.test.util.TestUtil.getFieldByName;

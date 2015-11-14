@@ -6,7 +6,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -15,8 +14,8 @@ import java.io.OutputStream;
 
 import static com.omnicrola.test.util.TestUtil.assertIsOfType;
 import static com.omnicrola.test.util.TestUtil.randomInt;
-import static org.hamcrest.core.IsAnything.any;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**

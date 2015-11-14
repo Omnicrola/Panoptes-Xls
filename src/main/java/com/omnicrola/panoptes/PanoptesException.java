@@ -1,7 +1,5 @@
 package com.omnicrola.panoptes;
 
-import java.io.IOException;
-
 /**
  * Created by omnic on 10/31/2015.
  */

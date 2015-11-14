@@ -4,7 +4,6 @@ import com.omnicrola.panoptes.data.ExportDataContainer;
 import com.omnicrola.panoptes.export.TemplateConfiguration;
 import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
 import com.omnicrola.panoptes.export.xls.wrappers.IWorksheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -14,9 +13,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -77,7 +75,7 @@ public class XlsWriterTest {
 
     private void setFileLoaderToReturnWorkbook() {
         PowerMockito.mockStatic(XlsFileLoader.class);
-        when(XlsFileLoader.loadTemplate("invoiceTemplate.xlsx")).thenReturn(this.mockWorkbook);
+        when(XlsFileLoader.loadTemplate("/invoiceTemplate.xlsx")).thenReturn(this.mockWorkbook);
     }
 
     private XlsWriter createExporter() {

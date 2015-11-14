@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -63,9 +62,8 @@ public class DefaultEndpointTest extends EndpointTest {
         when(this.mockXlsBuilder.write(exportDataContainer)).thenReturn(this.mockWorkbook);
 
         DefaultEndpoint defaultEndpoint = new DefaultEndpoint();
-        StreamingOutput streamingOutput = defaultEndpoint.createXls(exportDataContainer);
 
-        StreamingXlsOutput streamingXlsOutput = assertIsOfType(StreamingXlsOutput.class, streamingOutput);
+        StreamingXlsOutput streamingXlsOutput = assertIsOfType(StreamingXlsOutput.class, defaultEndpoint.createXls(exportDataContainer));
         assertSame(this.mockWorkbook, streamingXlsOutput.getWorkbook());
     }
 

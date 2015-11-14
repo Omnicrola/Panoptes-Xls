@@ -5,16 +5,9 @@ import com.omnicrola.panoptes.export.xls.wrappers.PanoptesWorkbook;
 import org.apache.poi.POIXMLProperties;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
-import sun.misc.Launcher;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.GregorianCalendar;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 import static com.omnicrola.test.util.TestUtil.assertIsOfType;
 import static org.junit.Assert.assertEquals;

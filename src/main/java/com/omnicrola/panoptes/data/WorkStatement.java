@@ -1,8 +1,5 @@
 package com.omnicrola.panoptes.data;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-
 public class WorkStatement {
 
     public static final WorkStatement EMPTY = new WorkStatement("", "", "", "", 0);

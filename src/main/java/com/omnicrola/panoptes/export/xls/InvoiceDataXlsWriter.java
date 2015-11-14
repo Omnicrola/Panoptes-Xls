@@ -1,9 +1,9 @@
 package com.omnicrola.panoptes.export.xls;
 
-import java.util.Map;
-
 import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
+
+import java.util.Map;
 
 public class InvoiceDataXlsWriter {
 

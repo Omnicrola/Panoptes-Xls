@@ -1,11 +1,11 @@
 package com.omnicrola.panoptes.export.xls;
 
+import com.omnicrola.panoptes.data.TimeData;
+import com.omnicrola.panoptes.data.WorkStatement;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import com.omnicrola.panoptes.data.TimeData;
-import com.omnicrola.panoptes.data.WorkStatement;
 
 public class TimesheetLineItemProvider {
 
