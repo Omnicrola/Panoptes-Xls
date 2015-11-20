@@ -1,5 +1,6 @@
 package com.omnicrola.panoptes.data;
 
+import com.omnicrola.panoptes.endpoints.TimeData;
 import org.junit.Test;
 
 import java.util.ArrayList;

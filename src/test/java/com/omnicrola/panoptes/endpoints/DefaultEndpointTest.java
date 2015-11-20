@@ -24,6 +24,8 @@ import static com.omnicrola.test.util.TestUtil.assertAnnotationPresent;
 import static com.omnicrola.test.util.TestUtil.assertIsOfType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
@@ -46,7 +48,7 @@ public class DefaultEndpointTest extends EndpointTest {
         Method defaultAction = defaultEndpointClass.getDeclaredMethod("defaultAction");
         assertAnnotationPresent(defaultAction, GET.class);
 
-        Method postAction = defaultEndpointClass.getDeclaredMethod("createXls", ExportDataContainer.class);
+        Method postAction = defaultEndpointClass.getDeclaredMethod("createXls", HttpServletResponse.class, ExportDataContainer.class);
         assertAnnotationPresent(postAction, POST.class);
     }
 
@@ -58,13 +60,19 @@ public class DefaultEndpointTest extends EndpointTest {
         exportDataContainer.workStatements = Collections.unmodifiableList(new ArrayList<>());
         exportDataContainer.timeblocks = Collections.unmodifiableList(new ArrayList<>());
 
+        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
+
         when(XlsWriterFactory.build()).thenReturn(this.mockXlsBuilder);
         when(this.mockXlsBuilder.write(exportDataContainer)).thenReturn(this.mockWorkbook);
 
         DefaultEndpoint defaultEndpoint = new DefaultEndpoint();
 
-        StreamingXlsOutput streamingXlsOutput = assertIsOfType(StreamingXlsOutput.class, defaultEndpoint.createXls(exportDataContainer));
+        StreamingXlsOutput streamingXlsOutput = assertIsOfType(StreamingXlsOutput.class, defaultEndpoint.createXls(mockResponse, exportDataContainer));
         assertSame(this.mockWorkbook, streamingXlsOutput.getWorkbook());
+
+        verify(mockResponse).setHeader("Content-Type", "application/json");
+        verify(mockResponse).setHeader("Access-Control-Allow-Origin", "*");
+
     }
 
     @Test

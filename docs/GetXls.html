@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>Test XLS</h1>
+
+    <textarea id="data" cols="70" rows="20">{
+    "timeblocks" : [],
+    "workStatements" : []
+}</textarea>
+<br/>
+<button id="submit">Submit</button>
+
+<script>
+    (function () {
+        document.getElementById('submit').onclick = function () {
+            var data = document.getElementById('data').value;
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                var response = xhttp.response;
+                console.log(response);
+            }
+            xhttp.open('POST', 'http://localhost:5000/write', false);
+            xhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+            xhttp.send(data);
+
+        };
+    })();
+</script>
+</body>
+</html>
