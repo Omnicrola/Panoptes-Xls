@@ -1,6 +1,6 @@
 package com.omnicrola.panoptes.export.xls;
 
-import com.omnicrola.panoptes.endpoints.TimeData;
+import com.omnicrola.panoptes.data.TimeData;
 import com.omnicrola.panoptes.data.WorkStatement;
 import org.junit.Test;
 

@@ -1,6 +1,5 @@
 package com.omnicrola.panoptes.data;
 
-import com.omnicrola.panoptes.endpoints.TimeData;
 
 import java.util.List;
 
