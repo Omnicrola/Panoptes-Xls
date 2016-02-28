@@ -21,8 +21,8 @@ public class ExportDataContainerTest {
     @Test
     public void testDefaults() throws Exception {
         ExportDataContainer exportDataContainer = new ExportDataContainer();
-        assertEquals(null, exportDataContainer.timeblocks);
-        assertEquals(null, exportDataContainer.workStatements);
+        assertEquals(new ArrayList<TimeData>(), exportDataContainer.timeblocks);
+        assertEquals(new ArrayList<WorkStatement>(), exportDataContainer.workStatements);
         exportDataContainer.timeblocks = new ArrayList<TimeData>();
         exportDataContainer.workStatements = new ArrayList<WorkStatement>();
     }

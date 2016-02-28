@@ -38,7 +38,7 @@ public class PersonalDataXlsWriter {
         IWorksheet invoiceSheet = workbook.getSheet(1);
         invoiceSheet.getRow(2).getCell('A').setValue(fullName);
         invoiceSheet.getRow(3).getCell('A').setValue(addressBlock);
-        invoiceSheet.getRow(22).getCell('A').setValue(payableTo);
+        invoiceSheet.getRow(21).getCell('A').setValue(payableTo);
     }
 
 }

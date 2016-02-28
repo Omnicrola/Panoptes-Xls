@@ -29,8 +29,8 @@ public class XlsFileLoaderTest {
         POIXMLProperties.CoreProperties properties = actualWorkbook.getProperties().getCoreProperties();
 
 
-        Date expectedCreatedDate = new GregorianCalendar(2014, 1, 17, 17, 19, 36).getTime();
-        Date expectedModifiedDate = new GregorianCalendar(2014, 1, 20, 12, 2, 8).getTime();
+        Date expectedCreatedDate = new GregorianCalendar(2010, 3, 5, 10, 25, 13).getTime();
+        Date expectedModifiedDate = new GregorianCalendar(2016, 0, 7, 9, 56, 54).getTime();
 
         assertEquals(expectedCreatedDate, properties.getCreated());
         assertEquals(expectedModifiedDate, properties.getModified());
