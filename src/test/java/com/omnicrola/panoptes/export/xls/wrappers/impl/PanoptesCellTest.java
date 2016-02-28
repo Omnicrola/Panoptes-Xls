@@ -1,4 +1,4 @@
-package com.omnicrola.panoptes.export.xls.wrappers;
+package com.omnicrola.panoptes.export.xls.wrappers.impl;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;

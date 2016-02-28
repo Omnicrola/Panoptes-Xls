@@ -42,7 +42,7 @@ public class XlsWriterTest {
     TemplateConfiguration mockTemplateConfig;
 
     @Test
-    public void testLoadsDataFromProvidersIntoWriters() throws Exception {
+    public void testPassesDataFromContainerToWriters() throws Exception {
         setFileLoaderToReturnWorkbook();
 
         int expectedTimsheetIndex = 293;
@@ -64,6 +64,7 @@ public class XlsWriterTest {
         verify(invoiceLineItemProvider).create(expectedTimesheetRows);
         verify(timesheetDataXlsWriter).write(this.mockWorksheet, expectedTimesheetRows);
         verify(invoiceDataWriter).writeInvoiceData(this.mockWorkbook, expectedInvoiceRows);
+        verify(personalDataWriter).write(this.mockWorkbook, mockDataContainer.personalData,mockDataContainer.weekEnding);
     }
 
     private ExportDataContainer createDataContainer() {

@@ -1,6 +1,9 @@
 package com.omnicrola.panoptes.data;
 
 
+import com.omnicrola.panoptes.export.TimesheetDate;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +12,12 @@ import java.util.List;
 public class ExportDataContainer {
 
     @Required
-    public List<TimeData> timeblocks;
+    public List<TimeData> timeblocks = new ArrayList<>();
     @Required
-    public List<WorkStatement> workStatements;
+    public List<WorkStatement> workStatements = new ArrayList<>();
+    @Required
+    public PersonalData personalData;
+    @Required
+    public TimesheetDate weekEnding;
+
 }

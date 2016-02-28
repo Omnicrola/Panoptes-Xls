@@ -5,6 +5,7 @@ package com.omnicrola.panoptes.export;
  */
 public class TemplateConfiguration {
     public static final TemplateConfiguration INSTANCE = new TemplateConfiguration();
+    public static final int INVOICE_SHEET_INDEX = 1;
 
     private TemplateConfiguration(){}
 
@@ -23,4 +24,5 @@ public class TemplateConfiguration {
     public int getIndexOfTotalsRow() {
         return 9;
     }
+
 }

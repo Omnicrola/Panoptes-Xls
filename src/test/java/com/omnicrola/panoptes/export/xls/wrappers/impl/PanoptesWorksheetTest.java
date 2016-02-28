@@ -1,6 +1,9 @@
-package com.omnicrola.panoptes.export.xls.wrappers;
+package com.omnicrola.panoptes.export.xls.wrappers.impl;
 
 import com.omnicrola.panoptes.export.xls.XssfUtilities;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorksheetRow;
+import com.omnicrola.panoptes.export.xls.wrappers.impl.PanoptesWorksheet;
+import com.omnicrola.panoptes.export.xls.wrappers.impl.PanoptesWorksheetRow;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.junit.Test;

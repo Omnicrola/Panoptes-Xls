@@ -15,7 +15,7 @@ public class XlsWriterFactory {
         return new XlsWriter(
                 new TimesheetLineItemProvider(),
                 new InvoiceLineItemProvider(),
-                new PersonalDataXlsWriter(),
+                new PersonalDataXlsWriter(templateConfig),
                 timesheetDataXlsWriter,
                 new InvoiceDataXlsWriter(),
                 templateConfig);

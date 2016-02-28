@@ -2,7 +2,7 @@ package com.omnicrola.panoptes.export.xls;
 
 import com.omnicrola.panoptes.PanoptesException;
 import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
-import com.omnicrola.panoptes.export.xls.wrappers.PanoptesWorkbook;
+import com.omnicrola.panoptes.export.xls.wrappers.impl.PanoptesWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileNotFoundException;

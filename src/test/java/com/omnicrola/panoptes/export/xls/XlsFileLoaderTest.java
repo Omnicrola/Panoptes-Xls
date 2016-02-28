@@ -1,7 +1,7 @@
 package com.omnicrola.panoptes.export.xls;
 
 import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
-import com.omnicrola.panoptes.export.xls.wrappers.PanoptesWorkbook;
+import com.omnicrola.panoptes.export.xls.wrappers.impl.PanoptesWorkbook;
 import org.apache.poi.POIXMLProperties;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;

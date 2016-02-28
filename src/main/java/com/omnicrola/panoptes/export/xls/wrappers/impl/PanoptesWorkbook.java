@@ -1,6 +1,8 @@
-package com.omnicrola.panoptes.export.xls.wrappers;
+package com.omnicrola.panoptes.export.xls.wrappers.impl;
 
 import com.omnicrola.panoptes.PanoptesException;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorksheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;

@@ -15,9 +15,9 @@ public class TimesheetDataXlsWriter {
     private TimesheetRowXlsWriter timesheetRowXlsWriter;
 
 
-    public TimesheetDataXlsWriter(TemplateConfiguration mockTemplateConfiguration, TimesheetRowXlsWriter mockRowWriter) {
+    public TimesheetDataXlsWriter(TemplateConfiguration mockTemplateConfiguration, TimesheetRowXlsWriter timesheetRowXlsWriter) {
         this.templateConfiguration = mockTemplateConfiguration;
-        timesheetRowXlsWriter = mockRowWriter;
+        this.timesheetRowXlsWriter = timesheetRowXlsWriter;
     }
 
     public void write(IWorksheet worksheet, List<TimesheetLineItem> timesheetRows) {

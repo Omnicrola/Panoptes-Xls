@@ -1,6 +1,8 @@
-package com.omnicrola.panoptes.export.xls.wrappers;
+package com.omnicrola.panoptes.export.xls.wrappers.impl;
 
 import com.omnicrola.panoptes.export.xls.XssfUtilities;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorksheet;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorksheetRow;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
@@ -20,7 +22,7 @@ public class PanoptesWorksheet implements IWorksheet {
 
     @Override
     public IWorksheetRow getRow(int rowNumber) {
-        return new PanoptesWorksheetRow(this.xssfSheet.getRow(rowNumber));
+        return new PanoptesWorksheetRow(this.xssfSheet.getRow(rowNumber + 1));
     }
 
     @Override

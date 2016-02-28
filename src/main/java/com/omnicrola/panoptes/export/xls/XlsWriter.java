@@ -19,8 +19,8 @@ public class XlsWriter {
     static final int SHEET_TIMESHEET = 0;
     static final int SHEET_INVOICE = 1;
 
-    private  TimesheetLineItemProvider timesheetLineItemProvider;
-    private  InvoiceLineItemProvider invoiceLineItemProvider;
+    private TimesheetLineItemProvider timesheetLineItemProvider;
+    private InvoiceLineItemProvider invoiceLineItemProvider;
     private PersonalDataXlsWriter personalDataWriter;
     private TimesheetDataXlsWriter timesheetDataXlsWriter;
     private InvoiceDataXlsWriter invoiceDataXlsWriter;
@@ -45,6 +45,7 @@ public class XlsWriter {
         Map<String, InvoiceRow> invoiceRows = this.invoiceLineItemProvider.create(timesheetRows);
 
         int timeSheetIndex = this.templateConfig.getIndexOfTimesheetSheet();
+        this.personalDataWriter.write(workbook, exportDataContainer.personalData, exportDataContainer.weekEnding);
         this.timesheetDataXlsWriter.write(workbook.getSheet(timeSheetIndex), timesheetRows);
         this.invoiceDataXlsWriter.writeInvoiceData(workbook, invoiceRows);
         return workbook;

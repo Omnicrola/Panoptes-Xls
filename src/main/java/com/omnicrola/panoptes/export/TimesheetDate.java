@@ -3,17 +3,17 @@ package com.omnicrola.panoptes.export;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DateWrapper {
+public class TimesheetDate {
 
     private final static SimpleDateFormat SHORT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     private final Date date;
 
-    private DateWrapper() {
+    private TimesheetDate() {
         this.date = new Date();
     }
 
-    public DateWrapper(Date date) {
+    public TimesheetDate(Date date) {
         this.date = date;
     }
 

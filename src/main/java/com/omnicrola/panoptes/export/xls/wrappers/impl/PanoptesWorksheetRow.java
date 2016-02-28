@@ -1,11 +1,13 @@
-package com.omnicrola.panoptes.export.xls.wrappers;
+package com.omnicrola.panoptes.export.xls.wrappers.impl;
 
+import com.omnicrola.panoptes.export.xls.wrappers.ICell;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorksheetRow;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 
 /**
  * Created by omnic on 11/8/2015.
  */
-public class PanoptesWorksheetRow implements IWorksheetRow{
+public class PanoptesWorksheetRow implements IWorksheetRow {
     private XSSFRow xssfRow;
 
     public PanoptesWorksheetRow(XSSFRow xssfRow) {
@@ -19,7 +21,7 @@ public class PanoptesWorksheetRow implements IWorksheetRow{
     }
 
     private int convertLetterToColumnIndex(int columnLetter) {
-        return columnLetter - 64;
+        return columnLetter - 65;
     }
 
     @Override

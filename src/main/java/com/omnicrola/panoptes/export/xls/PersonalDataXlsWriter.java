@@ -1,73 +1,44 @@
 package com.omnicrola.panoptes.export.xls;
 
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import com.omnicrola.panoptes.data.PersonalData;
+import com.omnicrola.panoptes.export.TimesheetDate;
+import com.omnicrola.panoptes.export.TemplateConfiguration;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorkbook;
+import com.omnicrola.panoptes.export.xls.wrappers.IWorksheet;
 
 public class PersonalDataXlsWriter {
 
-    private  XssfUtilities toolbox;
+    private TemplateConfiguration templateConfiguration;
 
-//    public PersonalDataXlsWriter(XssfUtilities toolbox) {
-//        this.toolbox = toolbox;
-//    }
-
-
-    private XSSFCell getCompanyCell(XSSFWorkbook workbook) {
-        return this.toolbox.getCellAt(workbook, XlsWriter.SHEET_TIMESHEET, 2, 2);
+    public PersonalDataXlsWriter(TemplateConfiguration templateConfiguration) {
+        this.templateConfiguration = templateConfiguration;
     }
 
-    private XSSFCell getNameCell(XSSFWorkbook workbook) {
-        return this.toolbox.getCellAt(workbook, XlsWriter.SHEET_TIMESHEET, 1, 2);
+    public void write(IWorkbook workbook, PersonalData personalData, TimesheetDate weekEnding) {
+        String firstName = personalData.firstName;
+        String lastname = personalData.lastName;
+        String fullName = firstName + " " + lastname;
+
+        writeInvoice(workbook, personalData, fullName);
+        IWorksheet timesheet = workbook.getSheet(0);
+        timesheet.getRow(2).getCell('C').setValue(fullName);
+        timesheet.getRow(3).getCell('C').setValue(personalData.companyName);
+        timesheet.getRow(4).getCell('C').setValue(weekEnding.toString());
     }
 
-    private XSSFCell getWeekEndingCell(XSSFWorkbook workbook) {
-        return this.toolbox.getCellAt(workbook, XlsWriter.SHEET_TIMESHEET, 3, 2);
-    }
+    private void writeInvoice(IWorkbook workbook, PersonalData personalData, String fullName) {
+        String address2 = personalData.city + ", " + personalData.state + " " + personalData.zip;
+        String addressBlock = personalData.address + "\n" +
+                address2 + "\n" +
+                personalData.phone + "\n" +
+                personalData.email;
+        String payableTo = "Makes all checks payable to " + fullName;
 
-//    private void writeInvoicePersonalInfo(XSSFWorkbook workbook, IReadPersonalData personalData,
-//            String fullName) {
-//        String address = personalData.getAddress();
-//        String city = personalData.getCity();
-//        String state = personalData.getState();
-//        String zip = personalData.getZip();
-//        String phone = personalData.getPhone();
-//        String email = personalData.getEmail();
-//
-//        String address2 = city + ", " + state + " " + zip;
-//        String addressBlock = this.toolbox.join("\n", address, address2, phone, " ", email);
-//        String payableTo = "Makes all checks payable to " + fullName;
-//
-//        XSSFCell nameCell = this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_INVOICE, 2, 0);
-//        XSSFCell addressCell = this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_INVOICE, 3, 0);
-//        XSSFCell payableCell = this.toolbox.getCellAt(workbook, ExcelExporter.SHEET_INVOICE, 22, 0);
-//
-//        nameCell.setCellValue(fullName);
-//        addressCell.setCellValue(addressBlock);
-//        payableCell.setCellValue(payableTo);
-//
-//    }
-//
-//    public void writePersonalData(XSSFWorkbook workbook, IReadPersonalData personalData,
-//            DateWrapper weekEnding) {
-//        String firstName = personalData.getFirstName();
-//        String lastname = personalData.getLastName();
-//        String fullName = firstName + " " + lastname;
-//
-//        writeWorksheetPersonalInfo(workbook, personalData, fullName, weekEnding);
-//        writeInvoicePersonalInfo(workbook, personalData, fullName);
-//
-//    }
-//
-//    private void writeWorksheetPersonalInfo(XSSFWorkbook workbook, IReadPersonalData personalData,
-//            String fullName, DateWrapper weekEnding) {
-//        XSSFCell nameCell = getNameCell(workbook);
-//        XSSFCell companyCell = getCompanyCell(workbook);
-//        XSSFCell weekEndingCell = getWeekEndingCell(workbook);
-//
-//        nameCell.setCellValue(fullName);
-//        companyCell.setCellValue(personalData.getCompanyName());
-//        weekEndingCell.setCellValue(weekEnding.getDate());
-//
-//    }
+
+        IWorksheet invoiceSheet = workbook.getSheet(1);
+        invoiceSheet.getRow(2).getCell('A').setValue(fullName);
+        invoiceSheet.getRow(3).getCell('A').setValue(addressBlock);
+        invoiceSheet.getRow(22).getCell('A').setValue(payableTo);
+    }
 
 }
