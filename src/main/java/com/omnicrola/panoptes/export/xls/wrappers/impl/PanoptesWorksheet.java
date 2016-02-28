@@ -22,9 +22,9 @@ public class PanoptesWorksheet implements IWorksheet {
 
     @Override
     public IWorksheetRow getRow(int rowNumber) {
-        XSSFRow row = this.xssfSheet.getRow(rowNumber + 1);
+        XSSFRow row = this.xssfSheet.getRow(rowNumber);
         if (row == null) {
-            System.err.println("Row was null! sheet: " + this.xssfSheet.getSheetName() + " row:" + rowNumber);
+            row = this.xssfSheet.createRow(rowNumber);
         }
         return new PanoptesWorksheetRow(row);
     }

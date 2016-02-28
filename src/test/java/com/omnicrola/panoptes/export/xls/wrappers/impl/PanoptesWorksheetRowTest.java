@@ -1,8 +1,6 @@
 package com.omnicrola.panoptes.export.xls.wrappers.impl;
 
 import com.omnicrola.panoptes.export.xls.wrappers.ICell;
-import com.omnicrola.panoptes.export.xls.wrappers.impl.PanoptesCell;
-import com.omnicrola.panoptes.export.xls.wrappers.impl.PanoptesWorksheetRow;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.junit.Test;
@@ -37,15 +35,17 @@ public class PanoptesWorksheetRowTest {
         PanoptesWorksheetRow panoptesWorksheetRow = createWorksheetRow();
         assertSame(this.mockXssfRow, panoptesWorksheetRow.getXssfRow());
     }
-@Test
-public void testGetRowNumber() throws Exception {
-    int expectedRowNumber = randomInt();
 
-    when(this.mockXssfRow.getRowNum()).thenReturn(expectedRowNumber);
+    @Test
+    public void testGetRowNumber() throws Exception {
+        int expectedRowNumber = randomInt();
 
-    PanoptesWorksheetRow worksheetRow = createWorksheetRow();
-    assertEquals(expectedRowNumber, worksheetRow.getRowNumber());
-}
+        when(this.mockXssfRow.getRowNum()).thenReturn(expectedRowNumber);
+
+        PanoptesWorksheetRow worksheetRow = createWorksheetRow();
+        assertEquals(expectedRowNumber, worksheetRow.getRowNumber());
+    }
+
     @Test
     public void testGetCell() throws Exception {
         for (int i = 0; i < ALPHANUMERIC.length; i++) {
@@ -53,6 +53,22 @@ public void testGetRowNumber() throws Exception {
             int cellIndex = i + 1;
             runCase(columnLetter, cellIndex);
         }
+    }
+
+    @Test
+    public void testCreatesCellWhenCellIsNull() throws Exception {
+        XSSFCell expectedCell = mock(XSSFCell.class);
+        this.mockXssfRow = mock(XSSFRow.class);
+        char expectedChar = 'B';
+        int expectedIndex = expectedChar - 64;
+
+        when(this.mockXssfRow.createCell(expectedIndex)).thenReturn(expectedCell);
+
+        PanoptesWorksheetRow worksheetRow = createWorksheetRow();
+        ICell cell = worksheetRow.getCell(expectedChar);
+        PanoptesCell panoptesCell = assertIsOfType(PanoptesCell.class, cell);
+        assertSame(expectedCell, panoptesCell.getXssfCell());
+
     }
 
     private void runCase(char columnLetter, int cellIndex) {

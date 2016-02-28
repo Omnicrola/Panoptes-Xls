@@ -37,7 +37,7 @@ public class PersonalDataXlsWriterTest {
 
         ICell nameCell = mockCellAt(invoiceSheet, 2, 'A');
         ICell addressCell = mockCellAt(invoiceSheet, 3, 'A');
-        ICell payableToCell = mockCellAt(invoiceSheet, 22, 'A');
+        ICell payableToCell = mockCellAt(invoiceSheet, 20, 'A');
 
         String expectedAddress = personalData.address + "\n" +
                 personalData.city + ", " + personalData.state + " " + personalData.zip + "\n" +

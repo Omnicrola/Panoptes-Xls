@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class XlsWriter {
 
-    private static final String TEMPLATE_FILENAME = "/invoiceTemplate.xlsx";
+    public static final String TEMPLATE_FILENAME = "/invoiceTemplate.xlsx";
 
     static final char[] ALPHANUMERIC = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
             'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};

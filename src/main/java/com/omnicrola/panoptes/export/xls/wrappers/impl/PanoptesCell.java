@@ -23,9 +23,10 @@ public class PanoptesCell implements ICell {
     public void setValue(String value) {
         this.xssfCell.setCellValue(value);
     }
+
     @Override
     public void setValue(float value) {
-        if(value == 0){
+        if (value == 0) {
             clear();
         } else {
             this.xssfCell.setCellValue(value);
@@ -40,5 +41,33 @@ public class PanoptesCell implements ICell {
     @Override
     public void setFormula(String formula) {
 
+    }
+
+    @Override
+    public String toString() {
+        String rawValue = (this.xssfCell == null) ? "null" : getString();
+        int rowIndex = (this.xssfCell == null) ? -1 : this.xssfCell.getRowIndex();
+        int columnIndex = (this.xssfCell == null) ? -1 : this.xssfCell.getColumnIndex();
+        return "PanoptesCell{" +
+                "(" + rowIndex + ", " + columnIndex + ") " +
+                rawValue +
+                '}';
+    }
+
+    private String getString() {
+        int cellType = this.xssfCell.getCellType();
+        if (cellType == XSSFCell.CELL_TYPE_STRING) {
+            return this.xssfCell.getStringCellValue();
+        } else if (cellType == XSSFCell.CELL_TYPE_FORMULA) {
+            return this.xssfCell.getCellFormula();
+        } else if (cellType == XSSFCell.CELL_TYPE_NUMERIC) {
+            return String.valueOf(this.xssfCell.getNumericCellValue());
+        } else if (cellType == XSSFCell.CELL_TYPE_BOOLEAN) {
+            return String.valueOf(xssfCell.getBooleanCellValue());
+        } else if (cellType == XSSFCell.CELL_TYPE_BLANK) {
+            return "[BLANK]";
+        } else {
+            return " ???";
+        }
     }
 }

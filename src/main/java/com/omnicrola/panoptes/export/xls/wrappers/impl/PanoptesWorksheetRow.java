@@ -19,7 +19,9 @@ public class PanoptesWorksheetRow implements IWorksheetRow {
     public ICell getCell(char columnLetter) {
         int index = convertLetterToColumnIndex(columnLetter);
         XSSFCell cell = this.xssfRow.getCell(index);
-        System.err.println("Cell was null! row: " + xssfRow.getRowNum() + " cell:" + columnLetter + "(" + index + ")");
+        if (cell == null) {
+            cell = this.xssfRow.createCell(index);
+        }
         return new PanoptesCell(cell);
     }
 

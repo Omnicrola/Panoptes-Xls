@@ -2,8 +2,6 @@ package com.omnicrola.panoptes.export.xls.wrappers.impl;
 
 import com.omnicrola.panoptes.export.xls.XssfUtilities;
 import com.omnicrola.panoptes.export.xls.wrappers.IWorksheetRow;
-import com.omnicrola.panoptes.export.xls.wrappers.impl.PanoptesWorksheet;
-import com.omnicrola.panoptes.export.xls.wrappers.impl.PanoptesWorksheetRow;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.junit.Test;
@@ -41,6 +39,19 @@ public class PanoptesWorksheetTest {
         XSSFRow mockRow = mock(XSSFRow.class);
         int expectedRowNumber = anyInt();
         when(this.mockSheet.getRow(expectedRowNumber)).thenReturn(mockRow);
+
+        PanoptesWorksheet sheet = createSheet();
+        IWorksheetRow row = sheet.getRow(expectedRowNumber);
+
+        PanoptesWorksheetRow panoptesWorksheetRow = assertIsOfType(PanoptesWorksheetRow.class, row);
+        assertSame(mockRow, panoptesWorksheetRow.getXssfRow());
+    }
+
+    @Test
+    public void testCreatesNewWorksheetRowWhenRowIsNull() throws Exception {
+        XSSFRow mockRow = mock(XSSFRow.class);
+        int expectedRowNumber = anyInt();
+        when(this.mockSheet.createRow(expectedRowNumber)).thenReturn(mockRow);
 
         PanoptesWorksheet sheet = createSheet();
         IWorksheetRow row = sheet.getRow(expectedRowNumber);
